@@ -1,0 +1,22 @@
+{{#freestyle-section name='Visual style' as |section|}}
+
+    {{#section.subsection name='Color'}}
+        {{freestyle-palette
+            colorPalette=colorPalette
+            title='OSF Color Palette'
+            description='Use these colors'
+        }}
+    {{/section.subsection}}
+
+    {{#section.subsection name='Icons'}}
+        use fontawesome
+    {{/section.subsection}}
+
+    {{#section.subsection name='Typography'}}
+        {{! TODO: get actual font-family using window.getComputedStyle('html') }}
+        {{freestyle-typeface fontFamily='Open Sans'}}
+        {{freestyle-typeface fontFamily='Helvetica Neue'}}
+    {{/section.subsection}}
+
+{{/freestyle-section}}
+

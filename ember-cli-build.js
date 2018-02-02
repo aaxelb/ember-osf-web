@@ -4,10 +4,17 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const Funnel = require('broccoli-funnel');
 
 const nonCdnEnvironments = ['development', 'test'];
+const pluginsToBlacklist = ['ember-freestyle', 'osf-style-guide'];
 
 module.exports = function(defaults) {
     const useCdn = (nonCdnEnvironments.indexOf(process.env.EMBER_ENV) === -1);
     const app = new EmberApp(defaults, {
+        addons: {
+            blacklist: useCdn ? pluginsToBlacklist : [],
+        },
+        freestyle: {
+            snippetSearchPaths: ['lib/osf-style-guide/app'],
+        },
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,

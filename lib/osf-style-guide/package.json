@@ -1,0 +1,12 @@
+{
+  "name": "osf-style-guide",
+  "version": "0.0.1",
+  "dependencies": {
+    "ember-cli-babel": "~6.8.0",
+    "ember-cli-htmlbars": "^1.1.1",
+    "ember-cli-htmlbars-inline-precompile": "~0.4.0"
+  },
+  "keywords": [
+    "ember-addon"
+  ]
+}

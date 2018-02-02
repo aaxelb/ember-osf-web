@@ -72,6 +72,7 @@
     "ember-faker": "^1.2.1",
     "ember-font-awesome": "3.0.5",
     "ember-get-config": "^0.2.4",
+    "ember-freestyle": "^0.6.2",
     "ember-i18n": "^5.0.2",
     "ember-i18n-inject": "^0.0.2",
     "ember-load-initializers": "^0.6.0",
@@ -115,5 +116,10 @@
   "dependencies": {
     "dropzone": "^5.3.0",
     "jquery-mockjax": "^2.3.0"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/osf-style-guide"
+    ]
   }
 }
