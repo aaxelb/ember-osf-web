@@ -29,9 +29,10 @@ const Router = EmberRouter.extend({
 Router.map(function() {
     this.route('dashboard', { path: '/' });
     this.route('quickfiles', { path: '/quickfiles' });
-    this.route('quickfiles', { path: '/me/quickfiles' });
-    this.route('user-quickfiles', { path: '/:user_id/quickfiles' });
-    this.route('file-detail', { path: '/:file_id' });
+    this.route('guid-route', { path: '/:guid/' }, function() {
+        this.route('user-quickfiles', { path: '/quickfiles/' });
+    });
+    this.route('not-found', { path: '*path' });
 });
 
 /* eslint-enable array-callback-return */

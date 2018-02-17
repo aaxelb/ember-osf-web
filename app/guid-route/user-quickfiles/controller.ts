@@ -7,7 +7,7 @@ export default class UserQuickfiles extends Controller.extend(Analytics, {
     actions: {
         async openFile(this: UserQuickfiles, file, show) {
             const guid = file.get('guid') || await file.getGuid();
-            this.transitionToRoute('file-detail', guid, { queryParams: { show } });
+            this.transitionToRoute('guid-route', guid, { queryParams: { show } });
         },
     },
 }) {

@@ -28,7 +28,9 @@
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
     "@centerforopenscience/osf-style": "1.5.1",
-    "@types/ember": "^2.8.8",
+    "bootstrap-sass": "^3.3.7",
+    "@types/ember": "^2.8.13",
+    "@types/ember-data": "^2.14.10",
     "@types/ember-testing-helpers": "^0.0.3",
     "@types/rsvp": "^4.0.1",
     "bootstrap-sass": "^3.3.7",

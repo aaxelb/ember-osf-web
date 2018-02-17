@@ -224,4 +224,8 @@ export default {
         search_syntax: 'search syntax',
         help_description: 'This gives you many options, but can be very simple as well. Examples of valid searches include:',
     },
+    'not-found': {
+        title: 'Page not found',
+        body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:support@osf.io">support@osf.io</a>.',
+    },
 };

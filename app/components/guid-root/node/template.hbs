@@ -1,0 +1,6 @@
+{{#if modelTask.isRunning}}
+    <div>Loading a node!</div>
+{{else}}
+    <div>Loaded this node! {{modelTask.value.title}}</div>
+    {{yield}}
+{{/if}}

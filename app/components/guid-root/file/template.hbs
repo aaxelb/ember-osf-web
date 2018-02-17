@@ -1,0 +1,6 @@
+{{#if modelTask.isRunning}}
+    <div>Loading a file!</div>
+{{else}}
+    <div>Loaded this file! {{modelTask.value.name}}</div>
+    {{yield}}
+{{/if}}
