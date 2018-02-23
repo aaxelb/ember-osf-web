@@ -1,7 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
 export default class Guid extends OsfAdapter.extend({
-  // anything which *must* be merged on the prototype
+    urlForFindRecord(this: Guid) {
+        const url = this._super(...arguments);
+        return `${url}?resolve=false`;
+    },
 }) {
   // normal class body
 }

@@ -2,8 +2,8 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 
 export default class GuidController extends Controller {
-    componentViewName = computed('model.modelType', function(this: GuidController) {
-        return `guid-root/${this.get('model.modelType')}`;
+    componentViewName = computed('model.guid.referentType', function(this: GuidController) {
+        return `guid-root/${this.get('model.guid.referentType')}`;
     });
 }
 

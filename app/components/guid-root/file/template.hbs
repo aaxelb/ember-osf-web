@@ -1,6 +1,6 @@
-{{#if modelTask.isRunning}}
+{{#if resolveTask.isRunning}}
     <div>Loading a file!</div>
 {{else}}
-    <div>Loaded this file! {{modelTask.value.name}}</div>
+    <div>Loaded this file! {{resolveTask.value.name}}</div>
     {{yield}}
 {{/if}}

@@ -1,7 +1,6 @@
-import DS from 'ember-data';
+import { computed } from '@ember/object';
+import { singularize } from 'ember-inflector';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 /**
  * @module ember-osf-web
@@ -13,10 +12,11 @@ const { attr } = DS;
  * @class Guid
  */
 export default class Guid extends OsfModel.extend({
-    referentType: attr('string'),
-    type: attr('string'),
+    referentType: computed(function() {
+        return singularize(this.get('links.relationships.referent.data.type'));
+    }),
 }) {
-    getReferent() {
+    resolve() {
         return this.get('store').findRecord(this.get('referentType'), this.get('id'));
     }
 }

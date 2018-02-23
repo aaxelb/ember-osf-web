@@ -1,18 +1,22 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency';
 
 export default class GuidRoute extends Route.extend({
 }) {
     store = service('store');
 
-    async model(this: GuidRoute, { guid }: { guid: string }): any {
+    resolveModel = task(function* (guid) {
+        return yield guid.resolve();
+    });
+
+    async model(this: GuidRoute, params: { guid: string }) {
         const store = this.get('store');
         try {
-            const guidModel = await store.findRecord('guid', guid);
-            debugger;
+            const guid = await store.findRecord('guid', params.guid);
             return {
-                modelType: guidModel.constructor.modelName,
-                resolved: store.findRecord(guidModel.constructor.modelName, guidModel.get('id')),
+                guid,
+                resolveTask: this.get('resolveModel').perform(guid),
             };
         } catch {
             this.transitionTo('not-found');
