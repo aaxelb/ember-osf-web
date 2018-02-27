@@ -24,9 +24,3 @@ export default class GuidRoute extends Route.extend({
         }
     }
 }
-
-declare module '@ember/routing/route' {
-    interface Registry {
-        'guid-route': GuidRoute;
-    }
-}

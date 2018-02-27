@@ -31,6 +31,7 @@ Router.map(function() {
     this.route('quickfiles', { path: '/quickfiles/' });
     this.route('guid-route', { path: '/:guid/' }, function() {
         this.route('user-quickfiles', { path: '/quickfiles/' });
+        this.route('file-versions', { path: '/revisions/' });
     });
     this.route('not-found', { path: '*path' });
 });
