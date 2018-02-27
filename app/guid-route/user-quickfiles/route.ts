@@ -15,14 +15,17 @@ function preventDrop(e: DragEvent) {
 export default class UserQuickfiles extends GuidSubroute.extend(Analytics, {
     actions: {
         didTransition(this: UserQuickfiles) {
+            // TODO: not this
             window.addEventListener('dragover', preventDrop);
             window.addEventListener('drop', preventDrop);
         },
     },
 }) {
+    allowedModels = ['user'];
+
     currentUser = service('currentUser');
 
     model(this: UserQuickfiles) {
-        return this.modelFor('guid-route').resolveTask;
+        return this.modelFor('guid-route');
     }
 }

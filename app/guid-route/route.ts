@@ -13,13 +13,14 @@ export default class GuidRoute extends Route.extend({
     async model(this: GuidRoute, params: { guid: string }) {
         const store = this.get('store');
         try {
+            // Wait until the guid's referent type is known
             const guid = await store.findRecord('guid', params.guid);
             return {
                 guid,
-                resolveTask: this.get('resolveModel').perform(guid),
+                taskInstance: this.get('resolveModel').perform(guid),
             };
         } catch {
-            this.transitionTo('not-found');
+            this.transitionTo('not-found', window.location.pathname.slice(1));
         }
     }
 }

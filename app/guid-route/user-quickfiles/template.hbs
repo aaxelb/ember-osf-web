@@ -1,15 +1,23 @@
-{{quickfile-nav user=model onQuickfiles=true}}
-<div class='container'>
-    {{title (t 'quickfiles.title' user-name=model.fullName)}}
+{{#if model.taskInstance.isRunning}}
+    Loading...
+{{else if model.taskInstance.error}}
+    Error! ({{model.taskInstance.error}})
+{{else if model.taskInstance.value}}
+    {{#with model.taskInstance.value as |user|}}
+        {{quickfile-nav user=user onQuickfiles=true}}
+        <div class='container'>
+            {{title (t 'quickfiles.title' user-name=user.fullName)}}
 
-    <div class='Content container'>
-        {{#if canEdit}}
-            <h5><i>{{t 'quickfiles.description'}}</i></h5>
-        {{else}}
-            <div style='height:14px;'></div>
-        {{/if}}
-        {{file-browser user=model openFile=(action 'openFile') dropZoneId='quickfiles-dropzone'}}
-    </div>
-</div>
+            <div class='Content container'>
+                {{#if canEdit}}
+                    <h5><i>{{t 'quickfiles.description'}}</i></h5>
+                {{else}}
+                    <div style='height:14px;'></div>
+                {{/if}}
+                {{file-browser user=user openFile=(action 'openFile') dropZoneId='quickfiles-dropzone'}}
+            </div>
+        </div>
+    {{/with}}
+{{/if}}
 
 {{feedback-button text=(t 'quickfiles.feedback_dialog_text') pageName=pageName}}
