@@ -1,19 +1,28 @@
 import { service } from '@ember-decorators/service';
-import DS from 'ember-data';
+import DS, { ModelRegistry } from 'ember-data';
+import File from 'ember-osf-web/models/file';
 import FileManager from 'ember-osf-web/services/file-manager';
-import OsfAdapter from './osf-adapter';
+import OsfAdapter, { RequestType } from './osf-adapter';
 
 interface Options {
     url: string;
 }
 
-export default class File extends OsfAdapter.extend({
-    buildURL(this: File, modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
-        const url: string = this._super(modelName, id, snapshot, requestType);
+export default class FileAdapter extends OsfAdapter<File> {
+    @service fileManager!: FileManager;
+
+    buildURL<K extends keyof ModelRegistry>(
+        modelName?: K,
+        id?: string | any[] | {} | null,
+        snapshot?: DS.Snapshot<K> | any[] | null,
+        requestType?: string,
+        query?: {},
+    ): string {
+        const url: string = super.buildURL(modelName, id, snapshot, requestType, query);
 
         // Water Bulter API does not like trailing slashes.
         return requestType === 'deleteRecord' ? url.replace(/\/$/, '') : url;
-    },
+    }
 
     /**
      * This is a hack to resolve a server-side race condition.
@@ -24,25 +33,23 @@ export default class File extends OsfAdapter.extend({
      * This adapter mixin appends a nonce to requests that are likely to run into
      * that race condition, forcing a cache miss.
      */
-    ajaxOptions(this: File, ...args: any[]): Options {
-        const hash: Options = this._super(...args);
-        const { url } = hash;
+    ajaxOptions(url: string, type: RequestType, options?: { isBulk?: boolean }): object {
+        const hash = super.ajaxOptions(url, type, options) as Options;
+        const superUrl = hash.url;
 
         return {
             ...hash,
-            url: this.fileManager.isReloadingUrl(url) ?
+            url: this.fileManager.isReloadingUrl(superUrl) ?
                 // The name of the query parameter doesn't matter, just the nonce
-                `${url}${url.includes('?') ? '&' : '?'}cachebypass=${Date.now()}` :
-                url,
+                `${superUrl}${superUrl.includes('?') ? '&' : '?'}cachebypass=${Date.now()}` :
+                superUrl,
 
         };
-    },
-}) {
-    @service fileManager!: FileManager;
+    }
 }
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        file: File;
+        file: FileAdapter;
     }
 }

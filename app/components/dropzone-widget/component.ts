@@ -3,9 +3,9 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import diffAttrs from 'ember-diff-attrs';
-import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import File from 'ember-osf-web/models/file';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import eatArgs from 'ember-osf-web/utils/eat-args';
 import Session from 'ember-simple-auth/services/session';
@@ -64,6 +64,7 @@ export default class DropzoneWidget extends Component.extend({
         },
     ),
 }) {
+    @service currentUser!: CurrentUser;
     @service session!: Session;
     @service i18n!: I18N;
 
@@ -137,6 +138,8 @@ export default class DropzoneWidget extends Component.extend({
             return Dropzone.prototype._addFilesFromDirectory.call(directory, path);
         };
 
+        const authorize = this.currentUser.authorizeXHR.bind(this.currentUser);
+
         // @ts-ignore
         const drop = new CustomDropzone(`#${this.elementId}`, {
             url: (file: any) => (typeof this.buildUrl === 'function' ?
@@ -147,6 +150,8 @@ export default class DropzoneWidget extends Component.extend({
             clickable: this.clickable.length ? this.clickable : '',
             dictDefaultMessage: this.defaultMessage,
             sending(file: any, xhr: any) {
+                authorize(xhr);
+
                 // Monkey patch to send the raw file instead of formData
                 xhr.send = xhr.send.bind(xhr, file); // eslint-disable-line no-param-reassign
             },
@@ -155,16 +160,6 @@ export default class DropzoneWidget extends Component.extend({
         this.preventMultiple();
 
         this.set('dropzoneElement', drop);
-
-        // Set osf session header
-        const headers: { [s: string]: string } = {};
-
-        const authType = config['ember-simple-auth'].authorizer;
-        this.session.authorize(authType, (headerName: string, content: string) => {
-            headers[headerName] = content;
-        });
-        this.options.headers = headers;
-        this.options.withCredentials = (config.authorizationType === 'cookie');
 
         // Attach preUpload to addedfile event
         drop.on('addedfile', (file: any) => {

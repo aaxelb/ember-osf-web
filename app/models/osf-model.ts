@@ -1,11 +1,9 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { get } from '@ember/object';
 import { task } from 'ember-concurrency';
-// eslint-disable-next-line no-unused-vars
-import DS, { AdapterRegistry, ModelRegistry } from 'ember-data';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import DS, { ModelRegistry } from 'ember-data';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 const { Model } = DS;
 
@@ -25,17 +23,21 @@ interface QueryHasManyResult extends Array<any> {
  * @class OsfModel
  * @public
  */
+export default class OsfModel extends Model {
+    @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
 
-export default class OsfModel extends Model.extend({
-    queryHasManyTask: task(function *(
+    @attr() links: any;
+
+    @alias('links.relationships') relationshipLinks: any;
+
+    queryHasManyTask = task(function *(
         this: OsfModel,
-        propertyName: any,
-        queryParams?: object,
-        ajaxOptions?: object,
+        propertyName: string,
+        queryParams: object | undefined,
+        ajaxOptions: object | undefined,
     ) {
-        const store = this.get('store');
-
-        const reference = this.hasMany(propertyName);
+        const reference = this.hasMany(propertyName as any);
 
         // HACK: ember-data discards/ignores the link if an object on the belongsTo side
         // came first. In that case, grab the link where we expect it from OSF's API
@@ -47,27 +49,19 @@ export default class OsfModel extends Model.extend({
         const options: object = {
             url,
             data: queryParams,
-            headers: get(store.adapterFor(
-                (this.constructor as typeof OsfModel).modelName as keyof AdapterRegistry,
-            ), 'headers'),
             ...ajaxOptions,
         };
 
-        const payload = yield authenticatedAJAX(options);
+        const payload = yield this.currentUser.authenticatedAJAX(options);
 
-        store.pushPayload(payload);
-        const records: QueryHasManyResult = payload.data.map((datum: { type: keyof ModelRegistry, id: string }) =>
-            store.peekRecord(datum.type, datum.id));
+        this.store.pushPayload(payload);
+        const records: QueryHasManyResult = payload.data.map(
+            (datum: { type: keyof ModelRegistry, id: string }) => this.store.peekRecord(datum.type, datum.id),
+        );
         records.meta = payload.meta;
         records.links = payload.links;
         return records;
-    }),
-}) {
-    @service store!: DS.Store;
-
-    @attr() links: any;
-
-    @alias('links.relationships') relationshipLinks: any;
+    });
 
     /*
      * Query a hasMany relationship with query params
@@ -76,11 +70,11 @@ export default class OsfModel extends Model.extend({
      * @param {String} propertyName Name of a hasMany relationship on the model
      * @param {Object} queryParams A hash to be serialized into the query string of the request
      * @param {Object} [ajaxOptions] A hash of options to be passed to jQuery.ajax
-     * @returns {ArrayPromiseProxy} Promise-like array proxy, resolves to the records fetched
+     * @returns {TaskInstance} Running task instance, resolves to the records fetched
      */
     queryHasMany(
         this: OsfModel,
-        propertyName: keyof OsfModel | 'quickfiles',
+        propertyName: string,
         queryParams?: object,
         ajaxOptions?: object,
     ) {

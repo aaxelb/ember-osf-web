@@ -1,9 +1,10 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import { bool, equal } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 import BaseFileItem from './base-file-item';
 import Citation from './citation';
@@ -36,6 +37,8 @@ const Validations = buildValidations({
  * @class Node
  */
 export default class Node extends BaseFileItem.extend(Validations) {
+    @service currentUser!: CurrentUser;
+
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('fixstring') category!: string;
@@ -119,7 +122,7 @@ export default class Node extends BaseFileItem.extend(Validations) {
 
     makeFork(this: Node): Promise<object> {
         const url = this.get('links').relationships.forks.links.related.href;
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',
             headers: {

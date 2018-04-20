@@ -1,16 +1,15 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
-import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
 
-export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
+import authRoute from 'ember-osf-web/mixins/auth-route';
+
+@authRoute
+export default class Application extends Route {
     @service i18n!: I18N;
-    @service store!: DS.Store;
 
     afterModel(this: Application) {
-        const i18n = this.get('i18n');
-        const availableLocales: [string] = i18n.get('locales').toArray();
+        const availableLocales: [string] = this.i18n.get('locales').toArray();
         let locale: string | undefined;
 
         // Works in Chrome and Firefox (editable in settings)
@@ -27,7 +26,7 @@ export default class Application extends Route.extend(OsfAuthenticatedRouteMixin
         }
 
         if (locale) {
-            i18n.setProperties({ locale });
+            this.i18n.setProperties({ locale });
         }
     }
 }

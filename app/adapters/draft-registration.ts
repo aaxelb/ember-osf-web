@@ -1,10 +1,11 @@
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import OsfAdapter from './osf-adapter';
 
-export default class DraftRegistration extends OsfAdapter {
+export default class DraftRegistrationAdapter extends OsfAdapter<DraftRegistration> {
 }
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'draft-registration': DraftRegistration;
+        'draft-registration': DraftRegistrationAdapter;
     }
 }

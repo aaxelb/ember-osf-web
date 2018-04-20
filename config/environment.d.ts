@@ -16,10 +16,6 @@ declare const config: {
         release?: string;
         ignoreErrors: string[];
     };
-    'ember-simple-auth': {
-        authorizer: string;
-        authenticator: string;
-    };
     EmberENV: {
         FEATURES: {};
         EXTEND_PROTOTYPES: {
@@ -64,6 +60,8 @@ declare const config: {
         redirectUri?: string;
         url: string;
         apiUrl: string;
+        apiVersion: string;
+        apiHeaders: { [k: string]: string };
         renderUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
@@ -76,6 +74,7 @@ declare const config: {
         devMode: boolean;
         statusCookie: string;
         cookieDomain: string;
+        authenticator: string;
     };
     social: {
         twitter: {

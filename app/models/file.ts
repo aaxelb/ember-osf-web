@@ -1,6 +1,7 @@
 import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { service } from '@ember-decorators/service';
 import DS from 'ember-data';
-import authenticatedAJAX from 'ember-osf-web/utils/ajax-helpers';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import BaseFileItem from './base-file-item';
 import Comment from './comment';
 import FileVersion from './file-version';
@@ -20,6 +21,8 @@ import User from './user';
  * @class File
  */
 export default class File extends BaseFileItem {
+    @service currentUser!: CurrentUser;
+
     @attr('fixstring') name!: string; // eslint-disable-line no-restricted-globals
     @attr('fixstring') guid!: string;
     @attr('string') path!: string;
@@ -54,7 +57,7 @@ export default class File extends BaseFileItem {
     flash: object | null = null;
 
     getContents(this: File): Promise<object> {
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url: this.links.download,
             type: 'GET',
             data: {
@@ -65,7 +68,7 @@ export default class File extends BaseFileItem {
     }
 
     async rename(this: File, newName: string, conflict = 'replace'): Promise<void> {
-        const { data } = await authenticatedAJAX({
+        const { data } = await this.currentUser.authenticatedAJAX({
             url: this.links.upload,
             type: 'POST',
             xhrFields: {
@@ -100,7 +103,7 @@ export default class File extends BaseFileItem {
     }
 
     updateContents(this: File, data: string): Promise<null> {
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url: this.links.upload,
             type: 'PUT',
             xhrFields: { withCredentials: true },
@@ -109,7 +112,7 @@ export default class File extends BaseFileItem {
     }
 
     move(this: File, node: Node): Promise<null> {
-        return authenticatedAJAX({
+        return this.currentUser.authenticatedAJAX({
             url: this.links.move,
             type: 'POST',
             xhrFields: { withCredentials: true },
