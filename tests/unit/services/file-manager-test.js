@@ -2,7 +2,8 @@ import $ from 'jquery';
 import Service from '@ember/service';
 import { module, skip, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { // mockFindRecord, mockUpdate, mockReload,
+import FactoryGuy, {
+    mockFindRecord, mockUpdate, mockReload,
     setupFactoryGuy, make,
 } from 'ember-data-factory-guy';
 
@@ -149,7 +150,7 @@ module('Unit | Service | file manager', function(hooks) {
         const response = {
             status: 200,
         };
-        const freshModel = build('file', {
+        const freshModel = FactoryGuy.build('file', {
             id: file.id,
             dateModified: new Date(),
         });
