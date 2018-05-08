@@ -1,5 +1,6 @@
 import { service } from '@ember-decorators/service';
 import { underscore } from '@ember/string';
+import { task } from 'ember-concurrency';
 import DS, { ModelRegistry } from 'ember-data';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
@@ -20,6 +21,11 @@ const {
 interface AdapterOptions {
     query?: string;
     url?: string;
+}
+
+interface QueryHasManyResult extends Array<any> {
+    meta?: any;
+    links?: any;
 }
 
 export enum RequestType {
@@ -48,6 +54,39 @@ export default class OsfAdapter<M extends OsfModel> extends JSONAPIAdapter {
     host: string = apiUrl;
     namespace: string = apiNamespace;
     headers = apiHeaders;
+
+    queryHasManyTask = task(function *(
+        this: OsfAdapter<M>,
+        model: M,
+        propertyName: string,
+        queryParams: object | undefined,
+        ajaxOptions: object | undefined,
+    ) {
+        const reference = model.hasMany(propertyName as any);
+
+        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+        // came first. In that case, grab the link where we expect it from OSF's API
+        const url: string = reference.link() || model.links.relationships.get(propertyName).links.related.href;
+        if (!url) {
+            throw new Error(`Could not find a link for '${propertyName}' relationship`);
+        }
+
+        const options: object = {
+            url,
+            data: queryParams,
+            ...ajaxOptions,
+        };
+
+        const payload = yield this.currentUser.authenticatedAJAX(options);
+
+        model.store.pushPayload(payload);
+        const records: QueryHasManyResult = payload.data.map(
+            (datum: { type: keyof ModelRegistry, id: string }) => model.store.peekRecord(datum.type, datum.id),
+        );
+        records.meta = payload.meta;
+        records.links = payload.links;
+        return records;
+    });
 
     /**
      * Overrides buildQuery method - Allows users to embed resources with findRecord

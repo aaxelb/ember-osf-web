@@ -27,6 +27,20 @@ export default class NodeAdapter extends OsfAdapter<Node> {
         }
         return super.buildURL(modelName, id, snapshot, requestType, query);
     }
+
+    makeFork(this: NodeAdapter, node: Node) {
+        const url = node.get('links').relationships.forks.links.related.href;
+        return this.currentUser.authenticatedAJAX({
+            url,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                data: { type: 'nodes' },
+            }),
+        });
+    }
 }
 
 declare module 'ember-data' {

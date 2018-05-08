@@ -3,5 +3,9 @@ declare module 'ember-data' {
         interface JSONAPIAdapter {
             buildQuery(snapshot: DS.Snapshot): object;
         }
+
+        interface Model {
+            modelName: string;
+        }
     }
 }
