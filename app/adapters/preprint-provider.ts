@@ -1,9 +1,10 @@
+import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import OsfAdapter from './osf-adapter';
 
-export default class PreprintProvider extends OsfAdapter {}
+export default class PreprintProviderAdapter extends OsfAdapter<PreprintProvider> {}
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'preprint-provider': PreprintProvider;
+        'preprint-provider': PreprintProviderAdapter;
     }
 }

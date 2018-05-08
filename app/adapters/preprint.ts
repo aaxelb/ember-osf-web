@@ -1,13 +1,13 @@
 import DS from 'ember-data';
-import PreprintModel from 'ember-osf-web/models/preprint';
+import Preprint from 'ember-osf-web/models/preprint';
 import PreprintSerializer from 'ember-osf-web/serializers/preprint';
 import RSVP from 'rsvp';
 import OsfAdapter from './osf-adapter';
 
-export default class Preprint extends OsfAdapter {
+export default class PreprintAdapter extends OsfAdapter<Preprint> {
     updateRecord(
         store: DS.Store,
-        type: PreprintModel,
+        type: Preprint,
         snapshot: DS.Snapshot,
     ): RSVP.Promise<any> {
         const data: object = {};
@@ -25,6 +25,6 @@ export default class Preprint extends OsfAdapter {
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'preprint': Preprint;
+        'preprint': PreprintAdapter;
     }
 }

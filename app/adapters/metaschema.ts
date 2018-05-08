@@ -1,9 +1,10 @@
+import Metaschema from 'ember-osf-web/models/metaschema';
 import OsfAdapter from './osf-adapter';
 
-export default class Metaschema extends OsfAdapter {}
+export default class MetaschemaAdapter extends OsfAdapter<Metaschema> {}
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'metaschema': Metaschema;
+        'metaschema': MetaschemaAdapter;
     }
 }

@@ -1,10 +1,11 @@
+import Contributor from 'ember-osf-web/models/contributor';
 import OsfAdapter from './osf-adapter';
 
-export default class Contributor extends OsfAdapter {
+export default class ContributorAdapter extends OsfAdapter<Contributor> {
 }
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-        'contributor': Contributor;
+        'contributor': ContributorAdapter;
     }
 }

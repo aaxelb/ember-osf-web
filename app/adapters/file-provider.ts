@@ -1,6 +1,7 @@
+import FileProvider from 'ember-osf-web/models/file-provider';
 import OsfAdapter from './osf-adapter';
 
-export default class FileProvider extends OsfAdapter {
+export default class FileProviderAdapter extends OsfAdapter<FileProvider> {
     pathForType(): string {
         return 'files';
     }
@@ -8,6 +9,6 @@ export default class FileProvider extends OsfAdapter {
 
 declare module 'ember-data' {
     interface AdapterRegistry {
-      'file-provider': FileProvider;
+      'file-provider': FileProviderAdapter;
     }
 }
