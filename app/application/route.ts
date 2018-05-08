@@ -1,9 +1,8 @@
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
-import OsfAuthenticatedRouteMixin from 'ember-osf-web/mixins/osf-authenticated-route';
+import authRoute from 'ember-osf-web/mixins/auth-route';
 
 const {
     i18n: {
@@ -11,13 +10,21 @@ const {
     },
 } = config;
 
-export default class Application extends Route.extend(OsfAuthenticatedRouteMixin) {
+@authRoute
+export default class ApplicationRoute extends Route.extend({
+    /*
+     * If this doesn't use `.extend()`, `ApplicationRoute.reopen(...)`
+     * will affect all routes.
+     *
+     * Extend with an empty block to prevent `session.restore()` from being
+     * called several times on every transition by this injected `beforeModel`:
+     * https://github.com/simplabs/ember-simple-auth/blob/1.6.0/addon/initializers/setup-session-restoration.js#L8
+     */
+}) {
     @service i18n!: I18N;
-    @service store!: DS.Store;
 
-    afterModel(this: Application) {
-        const i18n = this.get('i18n');
-        const availableLocales: [string] = i18n.get('locales').toArray();
+    afterModel(this: ApplicationRoute) {
+        const availableLocales: [string] = this.i18n.get('locales').toArray();
         let locale: string | undefined;
 
         // Works in Chrome and Firefox (editable in settings)
@@ -34,7 +41,7 @@ export default class Application extends Route.extend(OsfAuthenticatedRouteMixin
         }
 
         if (locale && enabledLocales.includes(locale)) {
-            i18n.setProperties({ locale });
+            this.i18n.setProperties({ locale });
         }
     }
 }
