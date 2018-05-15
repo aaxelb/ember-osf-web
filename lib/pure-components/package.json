@@ -1,0 +1,13 @@
+{
+  "name": "pure-components",
+  "keywords": [
+    "ember-addon"
+  ],
+  "devDependencies": {
+    "ember-cli-typescript": "*"
+  },
+  "dependencies": {
+    "ember-cli-htmlbars": "*",
+    "ember-cli-babel": "*"
+  }
+}

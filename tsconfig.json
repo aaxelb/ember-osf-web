@@ -48,7 +48,7 @@
       ],
       "*": [
         "types/*"
-      ],
+      ]
     },
     "experimentalDecorators": true,
     "skipLibCheck": true

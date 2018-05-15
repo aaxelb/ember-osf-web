@@ -139,6 +139,9 @@ declare const config: {
         collections: {
             enabled: boolean;
         };
+        devGuide: {
+            enabled: boolean;
+        };
     };
 };
 

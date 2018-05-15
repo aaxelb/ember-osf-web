@@ -192,6 +192,12 @@ module.exports = function(environment) {
             collections: {
                 enabled: COLLECTIONS_ENABLED,
             },
+            devGuide: {
+                enabled: devMode,
+            },
+        },
+        'ember-cli-tailwind': {
+            shouldIncludeStyleguide: false,
         },
     };
 

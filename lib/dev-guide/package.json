@@ -1,0 +1,13 @@
+{
+  "name": "dev-guide",
+  "keywords": [
+    "ember-addon",
+    "ember-engine"
+  ],
+  "dependencies": {
+    "ember-cli-htmlbars": "*",
+    "ember-cli-babel": "*",
+    "pure-components": "*",
+    "ember-cli-addon-docs": "*"
+  }
+}

@@ -12,6 +12,12 @@ function postProcess(content) {
 
 module.exports = function(defaults) {
     const app = new EmberApp(defaults, {
+        ace: {
+            modes: ['handlebars'],
+        },
+        addons: {
+            blacklist: ['ember-cli-addon-docs'],
+        },
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,
