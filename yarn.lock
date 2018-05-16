@@ -4158,9 +4158,9 @@ ember-browserify@^1.2.0:
     through2 "^2.0.0"
     walk-sync "^0.2.7"
 
-"ember-cli-addon-docs@https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#2":
+"ember-cli-addon-docs@https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#12":
   version "0.4.2"
-  resolved "https://github.com/aaxelb/ember-cli-addon-docs#dc9c607d71b6e6ac08bba54a991562d7044e7517"
+  resolved "https://github.com/aaxelb/ember-cli-addon-docs#6e262f905a4f57037e6442459c7351634f35219d"
   dependencies:
     "@glimmer/syntax" "^0.30.5"
     broccoli-caching-writer "^3.0.3"

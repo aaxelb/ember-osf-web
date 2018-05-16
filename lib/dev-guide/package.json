@@ -7,7 +7,7 @@
   "dependencies": {
     "ember-cli-htmlbars": "*",
     "ember-cli-babel": "*",
-    "pure-components": "*",
+    "osf-components": "*",
     "ember-cli-addon-docs": "*"
   }
 }
