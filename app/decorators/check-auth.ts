@@ -43,6 +43,7 @@ export default function checkAuth<T extends Newable<Route>>(
                     // Definitely not logged in. When they do log in, refresh the route.
                     this.session.on('authenticationSucceeded', this, this.refresh);
                 } else if (transition.targetName !== 'error-no-api') {
+                    console.log(e);
                     // Must have failed to make the request at all.
                     this.transitionTo(
                         'error-no-api',

@@ -4,6 +4,7 @@
     "ember-addon"
   ],
   "dependencies": {
+    "ember-cli-addon-docs-typedoc": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",

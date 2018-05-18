@@ -67,7 +67,7 @@ Router.map(function() {
         this.mount('collections');
     }
     if (devGuide.enabled) {
-        this.mount('devGuide', { path: '/dev-handbook' });
+        this.mount('dev-guide', { path: '/dev-handbook' });
     }
 
     /*
@@ -96,8 +96,8 @@ Router.map(function() {
     this.route('resolve-guid', { path: '/:guid' });
 
     // Error routes
-    this.route('not-found', { path: '*path' });
     this.route('error-no-api', { path: '*no_api_path' });
+    this.route('not-found', { path: '*path' });
 });
 
 /* eslint-enable array-callback-return */

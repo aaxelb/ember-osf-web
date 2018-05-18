@@ -36,6 +36,9 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
+      "dev-guide/*": [
+        "lib/dev-guide/addon/*"
+      ],
       "config/*": [
         "config/*"
       ],
@@ -59,6 +62,7 @@
     "tests",
     "types",
     "lib/collections",
-    "lib/osf-components"
+    "lib/osf-components",
+    "lib/dev-guide"
   ]
 }
