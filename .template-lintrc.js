@@ -8,5 +8,9 @@ module.exports = {
       'block-indentation': 4,
       'bare-strings': true,
       'nested-interactive': false,
-  }
+  },
+
+  ignore: [
+      '**/lib/dev-guide/**/*'
+  ]
 };

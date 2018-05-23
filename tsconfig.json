@@ -36,6 +36,9 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
+      "dev-guide": [
+        "lib/dev-guide/addon"
+      ],
       "dev-guide/*": [
         "lib/dev-guide/addon/*"
       ],

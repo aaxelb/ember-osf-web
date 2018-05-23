@@ -14,6 +14,7 @@ const {
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
+    HANDBOOK_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
@@ -193,7 +194,7 @@ module.exports = function(environment) {
                 enabled: COLLECTIONS_ENABLED,
             },
             devGuide: {
-                enabled: devMode,
+                enabled: HANDBOOK_ENABLED,
             },
         },
         'ember-cli-tailwind': {

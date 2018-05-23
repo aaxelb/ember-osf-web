@@ -143,6 +143,9 @@ declare const config: {
             enabled: boolean;
         };
     };
+    'ember-cli-tailwind'?: {
+        shouldIncludeStyleguide: boolean,
+    };
 };
 
 export default config;

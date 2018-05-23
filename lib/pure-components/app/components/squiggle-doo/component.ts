@@ -1,1 +1,0 @@
-export { default } from 'pure-components/components/squiggle-doo/component';

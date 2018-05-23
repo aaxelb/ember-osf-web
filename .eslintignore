@@ -1,4 +1,6 @@
-coverage
-dist
-docs
-tmp
+!.eslintrc.js
+/coverage
+/dist
+/docs
+/tmp
+/vendor

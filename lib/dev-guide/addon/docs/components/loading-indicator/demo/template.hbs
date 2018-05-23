@@ -1,0 +1,21 @@
+<h3>Default (for dark backgrounds)</h3>
+{{#docs-demo as |demo|}}
+    {{#demo.example}}
+        <div local-class='dark-background'>
+            {{! BEGIN-SNIPPET loading-indicator.default.hbs }}
+            {{loading-indicator}}
+            {{! END-SNIPPET }}
+        </div>
+    {{/demo.example}}
+
+    {{demo.snippet 'loading-indicator.default.hbs'}}
+{{/docs-demo}}
+
+<h3>With dark=true (for light backgrounds)</h3>
+{{#docs-demo as |demo|}}
+    {{#demo.example name='loading-indicator.dark.hbs'}}
+        {{loading-indicator dark=true}}
+    {{/demo.example}}
+
+    {{demo.snippet 'loading-indicator.dark.hbs'}}
+{{/docs-demo}}
