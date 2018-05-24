@@ -11,6 +11,6 @@ module.exports = {
   },
 
   ignore: [
-      '**/lib/dev-guide/**/*'
+      '**/lib/handbook/**/*'
   ]
 };

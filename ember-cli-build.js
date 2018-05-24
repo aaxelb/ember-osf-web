@@ -91,7 +91,7 @@ module.exports = function(defaults) {
         // TODO: figure out a way to put these in the engine's index.js
         includeHighlightJS: false,
         includeFileExtensionInSnippetNames: false,
-        snippetSearchPaths: ['lib/dev-guide/addon'],
+        snippetSearchPaths: ['lib/handbook/addon'],
         snippetRegexes: {
             begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
             end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
@@ -108,7 +108,7 @@ module.exports = function(defaults) {
         test: 'vendor/ember/ember-template-compiler.js',
     });
 
-    if (config.engines.devGuide.enabled) {
+    if (config.engines.handbook.enabled) {
         app.import('vendor/highlight.pack.js', {
             using: [{ transformation: 'amd', as: 'highlight.js' }],
         });

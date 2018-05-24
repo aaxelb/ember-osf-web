@@ -139,7 +139,7 @@ declare const config: {
         collections: {
             enabled: boolean;
         };
-        devGuide: {
+        handbook: {
             enabled: boolean;
         };
     };

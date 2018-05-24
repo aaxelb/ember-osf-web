@@ -193,7 +193,7 @@ module.exports = function(environment) {
             collections: {
                 enabled: COLLECTIONS_ENABLED,
             },
-            devGuide: {
+            handbook: {
                 enabled: HANDBOOK_ENABLED,
             },
         },

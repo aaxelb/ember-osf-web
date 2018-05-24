@@ -20,7 +20,7 @@ const App = Application.extend({
                 ],
             },
         },
-        devGuide: {
+        handbook: {
             dependencies: {
                 services: [
                     'router',

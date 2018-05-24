@@ -154,7 +154,7 @@
     "paths": [
       "lib/collections",
       "lib/osf-components",
-      "lib/dev-guide"
+      "lib/handbook"
     ]
   }
 }

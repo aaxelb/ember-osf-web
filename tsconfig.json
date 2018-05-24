@@ -36,11 +36,11 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
-      "dev-guide": [
-        "lib/dev-guide/addon"
+      "handbook": [
+        "lib/handbook/addon"
       ],
-      "dev-guide/*": [
-        "lib/dev-guide/addon/*"
+      "handbook/*": [
+        "lib/handbook/addon/*"
       ],
       "config/*": [
         "config/*"
@@ -66,6 +66,6 @@
     "types",
     "lib/collections",
     "lib/osf-components",
-    "lib/dev-guide"
+    "lib/handbook"
   ]
 }

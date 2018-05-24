@@ -48,7 +48,7 @@ const Router = EmberRouter.extend({
 const {
     engines: {
         collections,
-        devGuide,
+        handbook,
     },
 } = config;
 
@@ -66,8 +66,8 @@ Router.map(function() {
     if (collections.enabled) {
         this.mount('collections');
     }
-    if (devGuide.enabled) {
-        this.mount('dev-guide', { path: '/dev-handbook' });
+    if (handbook.enabled) {
+        this.mount('handbook', { path: '/handbook' });
     }
 
     /*
