@@ -4217,9 +4217,9 @@ ember-browserify@^1.2.0:
     resolve "^1.7.1"
     typedoc "^0.11.1"
 
-"ember-cli-addon-docs@https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#30":
+"ember-cli-addon-docs@https://github.com/aaxelb/ember-cli-addon-docs#docs-engine#32":
   version "0.4.2"
-  resolved "https://github.com/aaxelb/ember-cli-addon-docs#7774efdbed37e9f67f5659b1878d508501386c8b"
+  resolved "https://github.com/aaxelb/ember-cli-addon-docs#2425a8f83a4d12eb1758c367b33a55e338e29b54"
   dependencies:
     "@glimmer/syntax" "^0.30.5"
     broccoli-caching-writer "^3.0.3"
@@ -4238,7 +4238,7 @@ ember-browserify@^1.2.0:
     ember-cli-htmlbars-inline-precompile "^1.0.2"
     ember-cli-sass "7.1.3"
     ember-cli-string-helpers "^1.7.0"
-    ember-cli-tailwind "https://github.com/aaxelb/ember-cli-tailwind#no-styleguide"
+    ember-cli-tailwind "https://github.com/embermap/ember-cli-tailwind#091c6e69ca094d8fbeeedd091b045552ce56733d"
     ember-code-snippet "^2.1.0"
     ember-component-css "^0.3.5"
     ember-concurrency "^0.8.16"
@@ -4646,9 +4646,9 @@ ember-cli-stylelint@^2.1.0:
     ember-cli-version-checker "^2.1.0"
     js-string-escape "^1.0.1"
 
-"ember-cli-tailwind@https://github.com/aaxelb/ember-cli-tailwind#no-styleguide":
+"ember-cli-tailwind@https://github.com/embermap/ember-cli-tailwind#091c6e69ca094d8fbeeedd091b045552ce56733d":
   version "0.5.0"
-  resolved "https://github.com/aaxelb/ember-cli-tailwind#7da67b1a8b2a9b75ca42ed72ebbe65b60d1d241b"
+  resolved "https://github.com/embermap/ember-cli-tailwind#091c6e69ca094d8fbeeedd091b045552ce56733d"
   dependencies:
     broccoli-plugin "^1.3.0"
     broccoli-rollup "^2.0.0"
@@ -4947,17 +4947,6 @@ ember-click-outside@^0.1.12:
 ember-code-snippet@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-2.1.0.tgz#d548ceaf7b6e3afc262790a931e27a65adf1081c"
-  dependencies:
-    broccoli-flatiron "^0.1.2"
-    broccoli-merge-trees "^1.0.0"
-    broccoli-static-compiler "^0.1.4"
-    broccoli-writer "^0.1.1"
-    es6-promise "^1.0.0"
-    glob "^4.0.4"
-
-ember-code-snippet@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/ember-code-snippet/-/ember-code-snippet-2.2.0.tgz#534174a4285dc53f8e7ad62467de418efce8c771"
   dependencies:
     broccoli-flatiron "^0.1.2"
     broccoli-merge-trees "^1.0.0"

@@ -2,4 +2,8 @@
 
 This component indicates loading.
 
-{{docs/components/loading-indicator/demo}}
+## For dark backgrounds
+{{docs/components/loading-indicator/demo-default}}
+
+## For light backgrounds
+{{docs/components/loading-indicator/demo-dark}}

@@ -67,7 +67,7 @@ Router.map(function() {
         this.mount('collections');
     }
     if (handbook.enabled) {
-        this.mount('handbook', { path: '/handbook' });
+        this.mount('handbook');
     }
 
     /*
