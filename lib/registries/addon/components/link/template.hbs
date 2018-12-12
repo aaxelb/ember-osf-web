@@ -2,7 +2,7 @@
     onclick={{action this._onclick}}
     href={{this.href}}
     target={{this.target}}
-    class={{if this.isActive 'active'}}
+    class="{{@classNames}} {{if this.isActive 'active'}}"
     ...attributes
 >
     {{yield (hash

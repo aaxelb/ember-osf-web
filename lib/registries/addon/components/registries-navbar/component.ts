@@ -22,8 +22,8 @@ export default class RegistriesNavbar extends AuthBase {
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
     services = OSF_SERVICES;
-    helpRoute: string = defaultTo(this.helpRoute, externalLinks.help);
-    donateRoute: string = defaultTo(this.donateRoute, externalLinks.donate);
+    helpHref: string = defaultTo(this.helpHref, externalLinks.help);
+    donateHref: string = defaultTo(this.donateHref, externalLinks.donate);
 
     searchDropdownOpen: boolean = false;
 
