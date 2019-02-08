@@ -39,9 +39,14 @@ export default class Overview extends Controller {
         return this.registration && pathJoin(baseURL, `${this.registration.id}`);
     }
 
-    @computed('media.isDesktop', 'registration.withdrawn')
+    @computed('media.isDesktop', 'registration')
     get showMobileView() {
-        return !this.media.isDesktop && this.registration && !this.registration.withdrawn;
+        return !this.media.isDesktop && this.registration;
+    }
+
+    @computed('showMobileView', 'registration.withdrawn')
+    get showFloatingToolbar() {
+        return !this.showMobileView && this.registration && !this.registration.withdrawn;
     }
 
     @computed('media.{isMobile,isTablet,isDesktop}')

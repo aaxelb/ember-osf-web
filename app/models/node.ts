@@ -223,7 +223,8 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @computed('root')
     get isRoot() {
-        return !this.belongsTo('root').id();
+        const rootId = this.belongsTo('root').id();
+        return Boolean(!rootId || rootId === this.id);
     }
 
     // BaseFileItem override

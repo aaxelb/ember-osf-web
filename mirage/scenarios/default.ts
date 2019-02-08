@@ -51,6 +51,7 @@ function registrationScenario(server: Server, currentUser: ModelInstance) {
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         root: null,
+        tags: [],
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
