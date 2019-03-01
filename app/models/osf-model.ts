@@ -30,10 +30,12 @@ import {
 /* eslint-disable space-infix-ops */
 /* eslint-disable no-use-before-define */
 
-type FieldKeys<B, M extends B> = Keys<{
+type Keys<M, T> = T extends keyof M ? Extract<T, keyof M> : never;
+
+type FieldKeys<B, M extends B> = Keys<M, {
     // TODO: exclude methods
     [K in keyof M]: K extends keyof B ? never : K
-}[keyof M], M>;
+}[keyof M]>;
 
 type FieldRegistry<B> = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends B ?
@@ -43,25 +45,22 @@ type FieldRegistry<B> = {
 
 type SparseFieldSet<B> = Partial<FieldRegistry<B>>;
 
-/*
-type SparseFieldSet<B, Models extends keyof ModelRegistry> = {
-    [K in Models]: FieldRegistry<B>[K];
-};
- */
+type ModelBelongsTo<T extends DS.Model> = DS.PromiseObject<T> & T;
+type ModelHasMany<T extends DS.Model> = DS.PromiseManyArray<T>;
+type UnwrapField<T> =
+    T extends ModelBelongsTo<infer E> ? E :
+    T extends ModelHasMany<infer E> ? E :
+    T;
+type RelationshipKeys<B extends DS.Model, M extends B> = Extract<{
+    [K in keyof M]:
+        K extends keyof B ? never :
+        M[K] extends ModelBelongsTo<B> ? K :
+        M[K] extends ModelHasMany<B> ? K :
+        never;
+}[keyof M], keyof M>;
 
-type ModelAttr<T> = T | ArrayLike<T> |
-    (DS.PromiseObject<T> & T) |
-    (T extends DS.Model ? DS.PromiseManyArray<T> & T : never);
 type ArrayLike<T> = Array<T> | EmberArray<T>;
 type ElementOf<T> = T extends ArrayLike<infer E> ? E : T;
-type UnwrapAttr<T> = T extends ModelAttr<infer E> ? E : T;
-
-type Keys<T, M = any> = Extract<T, keyof M>;
-
-type RelationshipKeys<B, M extends B> = Keys<{
-    [K in keyof M]: K extends keyof B ? never :
-        UnwrapAttr<M[K]> extends B ? K : never;
-}[keyof M], M>;
 
 type ModelName<M> = {
         [K in keyof ModelRegistry]: ModelRegistry[K] extends M ? K : never
@@ -71,11 +70,15 @@ type SparseResult<
     B,
     M extends B,
     SparseFields extends SparseFieldSet<B>,
-    ResultFields extends keyof M = Keys<ElementOf<SparseFields[ModelName<M>]>, M>,
+    ResultFields extends keyof M = Keys<M, ElementOf<SparseFields[ModelName<M>]>>,
     > = {
         [F in ResultFields]:
-            M[F] extends B ? SparseResult<B, M[F], SparseFields> :
-            M[F] extends ModelAttr<B> ? Array<SparseResult<B, Extract<UnwrapAttr<M>, B>, SparseFields>> :
+            M[F] extends ModelBelongsTo<infer E> ? (
+                E extends B ? SparseResult<B, E, SparseFields> : never
+            ) :
+            M[F] extends ModelHasMany<infer E> ? (
+                E extends B ? Array<SparseResult<B, E, SparseFields>> : never
+            ) :
             M[F]
 };
 declare const foo: any;
@@ -335,12 +338,12 @@ export default class OsfModel extends Model {
     T extends OsfModel,
     R extends RelationshipKeys<OsfModel, T>,
     SparseFields extends SparseFieldSet<OsfModel>,
-    ResultType = UnwrapAttr<T[R]>,
+    ResultType extends OsfModel = Extract<UnwrapField<T[R]>, OsfModel>,
     >(
         this: T,
         relationshipName: R,
         fields: SparseFields,
-    ): ResultType extends OsfModel ? SparseResult<OsfModel, ResultType, SparseFields> : never {
+    ): SparseResult<OsfModel, ResultType, SparseFields> {
         foo(relationshipName, fields);
         return null as any;
     }

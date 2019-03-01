@@ -21,7 +21,7 @@ import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import LogModel from './log';
-import { Permission } from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import PreprintModel from './preprint';
 import RegionModel from './region';
 import RegistrationModel from './registration';
@@ -285,6 +285,7 @@ declare module 'ember-data/types/registries/model' {
 
 declare const n: NodeModel;
 
+
 const result = n.sparseHasMany('contributors', {
     user: ['givenName', 'fullName'],
     contributor: ['users', 'email'],
@@ -295,3 +296,11 @@ result.email; // good
 
 result.users.familyName; // bad
 result.user.givenName; //bad
+
+
+/*
+declare let r: RelationshipKeys<OsfModel, NodeModel>;
+declare let r1: {} extends Partial<Record<keyof NodeModel, string>> ? 'yes' : 'no';
+declare let s: NodeModel['contributors'] extends ModelBelongsTo<OsfModel> ? 'yes' : 'no';
+declare let t: NodeModel['contributors'] extends ModelHasMany<OsfModel> ? 'yes' : 'no';
+ */
