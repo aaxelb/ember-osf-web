@@ -11,7 +11,7 @@ type FieldRegistry<BaseModel> = {
         never;
 };
 
-type PartialFieldRegistry<BaseModel, Models extends keyof ModelRegistry> = {
+export type SparseFieldSet<BaseModel, Models extends keyof ModelRegistry> = {
     [K in Models]: FieldRegistry<BaseModel>[K];
 };
 
@@ -21,11 +21,14 @@ type ModelName<M> = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends M ? K : never
 }[keyof ModelRegistry];
 
-type SparseResult<
+export type RelationshipKeys<B, M extends B, MF = Subtract<M, B>> = {
+    [K in keyof MF]: ElementOf<MF[K]> extends B ? K : never
+}[keyof MF];
+
+export type SparseResult<
     BaseModel,
     M,
     SparseFields extends SparseFieldSet<BaseModel>,
-    PFNR
     MName = ModelName<M>,
     ResultFields extends keyof any = MName extends keyof SparseFields ? SparseFields[MName] : keyof {}
     > = {
@@ -35,5 +38,3 @@ type SparseResult<
             M[F]
         ) : never
 };
-
-declare function sfs<F extends PartialFieldRegistry<BaseModel

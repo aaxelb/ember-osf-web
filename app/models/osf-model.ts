@@ -26,6 +26,64 @@ import {
     ResourceCollectionDocument,
 } from 'osf-api';
 
+/* ********* start sparse fieldsets ********* */
+/* eslint-disable space-infix-ops */
+/* eslint-disable no-use-before-define */
+
+type FieldKeys<B, M extends B> = Keys<{
+    // TODO: exclude methods
+    [K in keyof M]: K extends keyof B ? never : K
+}[keyof M], M>;
+
+type FieldRegistry<B> = {
+    [K in keyof ModelRegistry]: ModelRegistry[K] extends B ?
+        Array<FieldKeys<B, ModelRegistry[K]>> :
+        never;
+};
+
+type SparseFieldSet<B> = Partial<FieldRegistry<B>>;
+
+/*
+type SparseFieldSet<B, Models extends keyof ModelRegistry> = {
+    [K in Models]: FieldRegistry<B>[K];
+};
+ */
+
+type ModelAttr<T> = T | ArrayLike<T> |
+    (DS.PromiseObject<T> & T) |
+    (T extends DS.Model ? DS.PromiseManyArray<T> & T : never);
+type ArrayLike<T> = Array<T> | EmberArray<T>;
+type ElementOf<T> = T extends ArrayLike<infer E> ? E : T;
+type UnwrapAttr<T> = T extends ModelAttr<infer E> ? E : T;
+
+type Keys<T, M = any> = Extract<T, keyof M>;
+
+type RelationshipKeys<B, M extends B> = Keys<{
+    [K in keyof M]: K extends keyof B ? never :
+        UnwrapAttr<M[K]> extends B ? K : never;
+}[keyof M], M>;
+
+type ModelName<M> = {
+        [K in keyof ModelRegistry]: ModelRegistry[K] extends M ? K : never
+}[keyof ModelRegistry];
+
+type SparseResult<
+    B,
+    M extends B,
+    SparseFields extends SparseFieldSet<B>,
+    ResultFields extends keyof M = Keys<ElementOf<SparseFields[ModelName<M>]>, M>,
+    > = {
+        [F in ResultFields]:
+            M[F] extends B ? SparseResult<B, M[F], SparseFields> :
+            M[F] extends ModelAttr<B> ? Array<SparseResult<B, Extract<UnwrapAttr<M>, B>, SparseFields>> :
+            M[F]
+};
+declare const foo: any;
+
+/* eslint-enable space-infix-ops */
+/* eslint-enable no-use-before-define */
+/* ********* end sparse fieldsets ********* */
+
 const { Model } = DS;
 
 export enum Permission {
@@ -273,5 +331,17 @@ export default class OsfModel extends Model {
         }
     }
 
-    async sparseHasMany
+    sparseHasMany<
+    T extends OsfModel,
+    R extends RelationshipKeys<OsfModel, T>,
+    SparseFields extends SparseFieldSet<OsfModel>,
+    ResultType = UnwrapAttr<T[R]>,
+    >(
+        this: T,
+        relationshipName: R,
+        fields: SparseFields,
+    ): ResultType extends OsfModel ? SparseResult<OsfModel, ResultType, SparseFields> : never {
+        foo(relationshipName, fields);
+        return null as any;
+    }
 }
