@@ -25,7 +25,7 @@ export default class ContributorListContributor extends Component.extend({
             contributorName,
             contributorLink,
         });
-    }).restartable(),
+    }).on('didReceiveAttrs').restartable(),
 }) {
     contributor!: Contributor;
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
@@ -33,8 +33,4 @@ export default class ContributorListContributor extends Component.extend({
 
     contributorName?: string;
     contributorLink?: string;
-
-    didReceiveAttrs() {
-        this.loadUser.perform();
-    }
 }

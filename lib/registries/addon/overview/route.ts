@@ -34,7 +34,7 @@ export default class Overview extends GuidRoute {
             const institutions = yield registration.loadAll('affiliatedInstitutions');
             const license = yield registration.license;
 
-            const image = `${assetsPrefix}engines-dist/registries/assets/img/osf-sharing.png`;
+            const image = `/engines-dist/registries/assets/img/osf-sharing.png`;
 
             const metaTagsData = {
                 title: registration.title,

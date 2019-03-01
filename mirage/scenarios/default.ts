@@ -54,6 +54,10 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
+
+    server.schema.registrationSchemas.all().models.forEach((registrationSchema, i) => {
+        server.create('registration', { id: `blah${i}`, registrationSchema });
+    });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {

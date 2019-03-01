@@ -272,4 +272,6 @@ export default class OsfModel extends Model {
             throw new Error(`Unexpected response ${errorContext}`);
         }
     }
+
+    async sparseHasMany
 }
