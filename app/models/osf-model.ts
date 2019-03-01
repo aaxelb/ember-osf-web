@@ -30,12 +30,12 @@ import {
 /* eslint-disable space-infix-ops */
 /* eslint-disable no-use-before-define */
 
-type Keys<M, T> = T extends keyof M ? Extract<T, keyof M> : never;
+// type Keys<T> = Extract<T, keyof any>;
 
-type FieldKeys<B, M extends B> = Keys<M, {
+type FieldKeys<B, M extends B> = {
     // TODO: exclude methods
     [K in keyof M]: K extends keyof B ? never : K
-}[keyof M]>;
+}[keyof M];
 
 type FieldRegistry<B> = {
     [K in keyof ModelRegistry]: ModelRegistry[K] extends B ?
@@ -63,14 +63,14 @@ type ArrayLike<T> = Array<T> | EmberArray<T>;
 type ElementOf<T> = T extends ArrayLike<infer E> ? E : T;
 
 type ModelName<M> = {
-        [K in keyof ModelRegistry]: ModelRegistry[K] extends M ? K : never
+    [K in keyof ModelRegistry]: ModelRegistry[K] extends M ? K : never
 }[keyof ModelRegistry];
 
 type SparseResult<
     B,
     M extends B,
     SparseFields extends SparseFieldSet<B>,
-    ResultFields extends keyof M = Keys<M, ElementOf<SparseFields[ModelName<M>]>>,
+    ResultFields extends keyof M = Extract<ElementOf<SparseFields[ModelName<M>]>, keyof M>,
     > = {
         [F in ResultFields]:
             M[F] extends ModelBelongsTo<infer E> ? (
