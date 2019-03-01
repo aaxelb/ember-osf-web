@@ -285,16 +285,19 @@ declare module 'ember-data/types/registries/model' {
 
 declare const n: NodeModel;
 
+
 const result = n.sparseHasMany('contributors', {
     user: ['givenName', 'fullName'],
     contributor: ['users', 'email'],
 });
 
-result.users.givenName; // good
-result.email; // good
+result.forEach(r => {
+    r.users.givenName; // good
+    r.email; // good
 
-result.users.familyName; // bad
-result.user.givenName; //bad
+    r.users.familyName; // bad
+    r.user.givenName; // bad
+});
 
 
 /*

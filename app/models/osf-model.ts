@@ -34,13 +34,15 @@ import {
 
 type FieldKeys<B, M extends B> = {
     // TODO: exclude methods
-    [K in keyof M]: K extends keyof B ? never : K
+    [K in keyof M]:
+        K extends keyof B ? never :
+        M[K] extends (...args: any) => unknown ? never :
+        K
 }[keyof M];
 
 type FieldRegistry<B> = {
-    [K in keyof ModelRegistry]: ModelRegistry[K] extends B ?
-        Array<FieldKeys<B, ModelRegistry[K]>> :
-        never;
+    [K in keyof ModelRegistry]:
+        ModelRegistry[K] extends B ? Array<FieldKeys<B, ModelRegistry[K]>> : never;
 };
 
 type SparseFieldSet<B> = Partial<FieldRegistry<B>>;
@@ -51,7 +53,10 @@ type UnwrapField<T> =
     T extends ModelBelongsTo<infer E> ? E :
     T extends ModelHasMany<infer E> ? E :
     T;
-type RelationshipKeys<B extends DS.Model, M extends B> = Extract<{
+type RelationshipKeys<
+    B extends DS.Model,
+    M extends B,
+    > = Extract<{
     [K in keyof M]:
         K extends keyof B ? never :
         M[K] extends ModelBelongsTo<B> ? K :
@@ -343,7 +348,7 @@ export default class OsfModel extends Model {
         this: T,
         relationshipName: R,
         fields: SparseFields,
-    ): SparseResult<OsfModel, ResultType, SparseFields> {
+    ): Array<SparseResult<OsfModel, ResultType, SparseFields>> {
         foo(relationshipName, fields);
         return null as any;
     }
