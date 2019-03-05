@@ -45,13 +45,25 @@ function registrationScenario(server: Server, currentUser: ModelInstance<User>) 
 
     server.create('registration', { id: 'beefs' });
 
-    server.create('registration', {
+    const reg = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         linkedNodes: server.createList('node', 2),
         linkedRegistrations: server.createList('registration', 2),
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withComments', 'withDoi', 'withLicense');
+
+    const reg2 = server.create('registration', { parent: reg });
+    const reg3 = server.create('registration', { parent: reg2 });
+    server.create('registration', { parent: reg3 });
+
+    server.schema.registrationSchemas.all().models.forEach((registrationSchema, i) => {
+        server.create('registration', {
+            id: `blah${i}`,
+            registrationSchema,
+        });
+    });
+
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
 

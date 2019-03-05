@@ -282,27 +282,3 @@ declare module 'ember-data/types/registries/model' {
         node: NodeModel;
     } // eslint-disable-line semi
 }
-
-declare const n: NodeModel;
-
-
-const result = n.sparseHasMany('contributors', {
-    user: ['givenName', 'fullName'],
-    contributor: ['users', 'email'],
-});
-
-result.forEach(r => {
-    r.users.givenName; // good
-    r.email; // good
-
-    r.users.familyName; // bad
-    r.user.givenName; // bad
-});
-
-
-/*
-declare let r: RelationshipKeys<OsfModel, NodeModel>;
-declare let r1: {} extends Partial<Record<keyof NodeModel, string>> ? 'yes' : 'no';
-declare let s: NodeModel['contributors'] extends ModelBelongsTo<OsfModel> ? 'yes' : 'no';
-declare let t: NodeModel['contributors'] extends ModelHasMany<OsfModel> ? 'yes' : 'no';
- */
