@@ -21,7 +21,7 @@ import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import LogModel from './log';
-import OsfModel, { Permission } from './osf-model';
+import { Permission } from './osf-model';
 import PreprintModel from './preprint';
 import RegionModel from './region';
 import RegistrationModel from './registration';
