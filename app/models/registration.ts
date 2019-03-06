@@ -83,7 +83,7 @@ export default class RegistrationModel extends NodeModel.extend() {
     children!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('institution', { inverse: 'registrations' })
-    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

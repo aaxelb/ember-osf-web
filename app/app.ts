@@ -56,6 +56,7 @@ const App = Application.extend({
                     'head-tags',
                     'i18n',
                     'media',
+                    'osf-data',
                     'page-title-list',
                     'ready',
                     'router',

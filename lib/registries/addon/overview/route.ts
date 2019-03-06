@@ -12,24 +12,38 @@ import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route
 import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
+import OsfData, { SparseHasManyResult } from 'ember-osf-web/services/osf-data';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import tuple from 'ember-osf-web/utils/tuple';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
+    @service osfData!: OsfData;
 
     headTags?: HeadTagDef[];
 
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 
-        const registration = yield model.taskInstance as Registration;
+        const registration: Registration = yield model.taskInstance;
 
         if (registration) {
-            const contributors = yield registration.loadAll('contributors');
-            const institutions = yield registration.loadAll('affiliatedInstitutions');
+            const contribFields = {
+                contributor: tuple('users', 'index'),
+                user: tuple('fullName'),
+            };
+
+            const contributors: SparseHasManyResult<Contributor, typeof contribFields> =
+                yield this.osfData.sparseHasMany(registration, 'contributors', contribFields);
+
+            const institutionFields = {
+                institution: tuple('name'),
+            };
+            const institutions: SparseHasManyResult<Institution, typeof institutionFields> =
+                yield this.osfData.sparseHasMany(registration, 'affiliatedInstitutions', institutionFields);
             const license = yield registration.license;
 
             const image = '/engines-dist/registries/assets/img/osf-sharing.png';
@@ -45,8 +59,8 @@ export default class Overview extends GuidRoute {
                 keywords: registration.tags,
                 siteName: 'OSF',
                 license: license && license.name,
-                author: contributors.map((contrib: Contributor) => contrib.users.get('fullName')),
-                institution: institutions.map((ins: Institution) => ins.get('name')),
+                author: contributors.data.map(contrib => contrib.users.fullName),
+                institution: institutions.data.map(institution => institution.name),
             };
 
             this.set('headTags', this.metaTags.getHeadTags(metaTagsData));

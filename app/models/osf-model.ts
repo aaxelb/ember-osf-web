@@ -1,12 +1,12 @@
 import { attr } from '@ember-decorators/data';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
-import { A } from '@ember/array';
+import EmberArray, { A } from '@ember/array';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
-import { dasherize, underscore, camelize } from '@ember/string';
+import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
-import DS from 'ember-data';
+import DS, { RelationshipsFor } from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
 import { Links, PaginationLinks } from 'jsonapi-typescript';
@@ -16,13 +16,6 @@ import getHref from 'ember-osf-web/utils/get-href';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import getSelfHref from 'ember-osf-web/utils/get-self-href';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import {
-    Keys,
-    ModelBelongsTo,
-    ModelHasMany,
-    ModelFieldRegistry,
-    SparseModel,
-} from 'ember-osf-web/utils/sparse-fieldsets';
 
 import {
     BaseMeta,
@@ -30,7 +23,6 @@ import {
     NormalLinks,
     PaginatedMeta,
     Relationships,
-    Resource,
     ResourceCollectionDocument,
 } from 'osf-api';
 
@@ -42,39 +34,13 @@ export enum Permission {
     Admin = 'admin',
 }
 
-/* eslint-disable space-infix-ops */
-/* eslint-disable no-use-before-define */
-
-// All relationship names for a given model M
-export type RelationshipsFor<M extends OsfModel> = Keys<M, {
-    [K in keyof M]:
-        K extends keyof OsfModel ? never :
-        M[K] extends ModelBelongsTo ? K :
-        M[K] extends ModelHasMany ? K :
-        never;
-}[keyof M]>;
-
-export type UnwrapField<T, R extends keyof T> =
-    T[R] extends ModelBelongsTo<infer E> ? E :
-    T[R] extends ModelHasMany<infer E> ? E :
-    T[R];
-
-export interface SparseHasManyResult<
-    M extends OsfModel,
-    SparseFields extends Partial<ModelFieldRegistry<OsfModel>>,
-> {
-    data: Array<SparseModel<OsfModel, M, SparseFields>>;
-    meta: PaginatedMeta;
-    links?: Links | PaginationLinks;
-}
+// eslint-disable-next-line space-infix-ops
+type RelationshipType<T, R extends keyof T> = T[R] extends EmberArray<infer U> ? U : never;
 
 export interface QueryHasManyResult<T> extends Array<T> {
     meta: PaginatedMeta;
     links?: Links | PaginationLinks;
 }
-
-/* eslint-enable space-infix-ops */
-/* eslint-enable no-use-before-define */
 
 export interface PaginatedQueryOptions {
     'page[size]': number;
@@ -128,7 +94,7 @@ export default class OsfModel extends Model {
     async queryHasMany<
     T extends OsfModel,
     R extends RelationshipsFor<T>,
-    RT = UnwrapField<T, R>
+    RT = RelationshipType<T, R>
     >(
         this: T,
         propertyName: R,
@@ -185,7 +151,7 @@ export default class OsfModel extends Model {
         relationshipName: R,
         queryParams: PaginatedQueryOptions = { 'page[size]': 100, page: 1 },
         totalPreviouslyLoaded = 0,
-    ): Promise<QueryHasManyResult<UnwrapField<T, R>>> {
+    ): Promise<QueryHasManyResult<RelationshipType<T, R>>> {
         const currentResults = await this.queryHasMany(relationshipName, queryParams);
 
         const { meta: { total } } = currentResults;
@@ -312,79 +278,5 @@ export default class OsfModel extends Model {
         } else {
             throw new Error(`Unexpected response ${errorContext}`);
         }
-    }
-
-    /*
-     * https://developer.osf.io/#tag/Sparse-Fieldsets
-     */
-    async sparseHasMany<
-    M extends OsfModel,
-    R extends RelationshipsFor<M>,
-    SparseFields extends Partial<ModelFieldRegistry<OsfModel>>,
-    ResultType extends OsfModel = Extract<UnwrapField<M, R>, OsfModel>,
-    >(
-        this: M,
-        relationshipName: R,
-        fieldset: SparseFields,
-        queryParams?: object,
-        ajaxOptions?: object,
-    ): Promise<SparseHasManyResult<ResultType, SparseFields>> {
-        const url = this.getHasManyLink(relationshipName);
-        if (!url) {
-            throw Error();
-        }
-
-        const fields = Object.entries(fieldset).reduce(
-            (acc, [modelName, fields]) => {
-                if (fields) {
-                    acc[underscore(pluralize(modelName))] = (fields as string[]).map(underscore).join(',');
-                }
-                return acc;
-            },
-            {} as Record<string, string>,
-        );
-
-        const { data, meta, links }: ResourceCollectionDocument = await this.currentUser.authenticatedAJAX({
-            url,
-            data: { fields, ...queryParams },
-            ...ajaxOptions,
-        });
-
-        function processJson(
-            obj: object | undefined,
-            processValue?: ((x: unknown) => unknown),
-        ): Record<string, unknown> {
-            if (!obj) {
-                return {};
-            }
-            return Object.entries(obj).reduce(
-                (acc, [k, v]) => {
-                    acc[camelize(k)] = processValue ? processValue(v) : v;
-                    return acc;
-                },
-                {} as Record<string, unknown>,
-            );
-        }
-
-        function makeSparseModel(resource: Resource | Resource[]): any {
-            if (resource instanceof Array) {
-                return resource.map(makeSparseModel);
-            }
-            return {
-                id: resource.id,
-                type: resource.type,
-                links: resource.links,
-                fields: {
-                    ...processJson(resource.attributes),
-                    ...processJson(resource.embeds, makeSparseModel),
-                },
-            };
-        }
-
-        return {
-            data: makeSparseModel(data),
-            meta,
-            links,
-        } as SparseHasManyResult<ResultType, SparseFields>;
     }
 }

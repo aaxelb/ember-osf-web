@@ -107,7 +107,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @hasMany('institution', { inverse: 'nodes' })
-    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;
 
     @hasMany('comment', { inverse: 'node' })
     comments!: DS.PromiseManyArray<CommentModel>;
