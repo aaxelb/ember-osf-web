@@ -49,6 +49,7 @@ function gatherRelationshipActions(opts: RelationshipOptions) {
     return gatherActions(opts, actions);
 }
 
+// For top-level resources, e.g. `/v2/nodes/`
 export function osfResource(
     server: Server,
     modelName: keyof ModelRegistry,
@@ -96,6 +97,8 @@ export function osfResource(
     }
 }
 
+// For resources that are only accessible through a top-level resource's relationship,
+// e.g. `/v2/nodes/<node_id>/contributors/<contributor_id>` (there is no `/v2/contributors/<contributor_id>`)
 export function osfNestedResource<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
@@ -141,6 +144,8 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     }
 }
 
+// For to-many relationships between top-level resources,
+// e.g. `/v2/nodes/<node_id>/affiliated_institutions/<id>` (but the institution lives at `/v2/institutions/<id>`)
 export function osfToManyRelationship<K extends keyof ModelRegistry>(
     server: Server,
     parentModelName: K,
@@ -149,7 +154,6 @@ export function osfToManyRelationship<K extends keyof ModelRegistry>(
 ) {
     const opts: RelationshipOptions = Object.assign({
         path: `/${pluralize(underscore(parentModelName))}/:parentID/relationships/${underscore(relationshipName)}`,
-        relatedModelName: relationshipName,
         defaultSortKey: '-id',
     }, options);
     const mirageParentModelName = pluralize(camelize(parentModelName));
@@ -164,6 +168,23 @@ export function osfToManyRelationship<K extends keyof ModelRegistry>(
                 .filter((m: ModelInstance) => filter(m, request))
                 .map((model: ModelInstance) => this.serialize(model).data);
             return process(schema, request, this, data, { defaultSortKey: opts.defaultSortKey });
+        });
+    }
+
+    if (actions.includes('self')) {
+        server.patch(opts.path, (schema: Schema, request: Request) => {
+            const { parentID } = request.params;
+            const parentModel = schema[mirageParentModelName].find(parentID);
+            const { data: relatedRefs } = JSON.parse(request.requestBody) as {
+                data: Array<Record<'id' | 'type', string>>,
+            };
+            const relatedIdsKey = `${singularize(relationshipName)}Ids`;
+
+            parentModel.update({
+                [relatedIdsKey]: relatedRefs.mapBy('id'),
+            });
+
+            return { data: relatedRefs };
         });
     }
 
