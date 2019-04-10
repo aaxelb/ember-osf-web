@@ -63,6 +63,9 @@ export default function(this: Server) {
         only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
     });
+    osfToManyRelationship(this, 'node', 'subjects', {
+        only: ['related', 'self'],
+    });
 
     osfResource(this, 'registration', { except: ['show'] });
     this.get('/registrations/:id', registrationDetail);
@@ -88,6 +91,9 @@ export default function(this: Server) {
     this.post('/registrations/:parentID/identifiers/', identifierCreate);
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
+    osfToManyRelationship(this, 'registration', 'subjects', {
+        only: ['related', 'self'],
+    });
 
     osfNestedResource(this, 'comment', 'reports', {
         except: ['delete'],
@@ -103,10 +109,16 @@ export default function(this: Server) {
         only: ['related', 'add', 'remove'],
     });
 
+    osfToManyRelationship(this, 'collected-metadatum', 'subjects', {
+        only: ['related', 'self'],
+    });
+
     osfResource(this, 'scope', { only: ['index', 'show'] });
     osfResource(this, 'region', { only: ['index', 'show'] });
 
     this.get('/status', () => ({ meta: { version: '2.8' }, maintenance: null }));
+
+    osfResource(this, 'subject', { only: ['show'] });
 
     osfResource(this, 'token', { except: ['create'] });
     this.post('/tokens', createToken);
@@ -134,6 +146,12 @@ export default function(this: Server) {
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfToManyRelationship(this, 'preprint-provider', 'subjects', {
+        only: ['related', 'self'],
+    });
+    osfToManyRelationship(this, 'preprint-provider', 'highlightedSubjects', {
+        only: ['related', 'self'],
+    });
 
     // Waterbutler namespace
     this.namespace = '/wb';
