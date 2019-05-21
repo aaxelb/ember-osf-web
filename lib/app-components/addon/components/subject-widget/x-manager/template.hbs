@@ -1,0 +1,9 @@
+{{yield (hash
+    subjects=this.subjects
+    add=(action this.add)
+    remove=(action this.remove)
+    discardChanges=(action this.discardChanges)
+    save=(perform this.save)
+    isSaving=this.isSaving
+    hasChanged=this.hasChanged
+)}}

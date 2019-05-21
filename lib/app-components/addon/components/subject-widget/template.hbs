@@ -1,0 +1,22 @@
+{{#let
+    (component 'subject-widget/x-manager')
+    (component 'subject-widget/x-picker')
+    (component 'subject-widget/x-display')
+    as |SubjectManager SubjectPicker SubjectDisplay|
+}}
+    <SubjectManager
+        @model={{@model}}
+        as |subjectManager|
+    >
+        <SubjectDisplay
+            @subjects={{subjectManager.subjects}}
+            @remove={{subjectManager.remove}}
+        />
+        <SubjectPicker
+            @provider={{@provider}}
+            @selectedSubjects={{subjectManager.subjects}}
+            @add={{subjectManager.add}}
+            @remove={{subjectManager.remove}}
+        />
+    </SubjectManager>
+{{/let}}

@@ -1,16 +1,16 @@
 import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import EmberObject, { setProperties } from '@ember/object';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import OsfModel, { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Provider from 'ember-osf-web/models/provider';
-import Taxonomy from 'ember-osf-web/models/taxonomy';
+import Subject from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
-import Theme from 'ember-osf-web/services/theme';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
@@ -29,63 +29,84 @@ function arrayStartsWith(arr: Taxonomy[], prefix: Taxonomy[]) {
 }
 
 interface Column extends EmberObject {
-    subjects: Taxonomy[];
-    selection: Taxonomy | null;
+    subjects: Subject[];
+    selection: Subject | null;
+}
+
+interface ModelWithSubjects extends OsfModel {
+    subjects: DS.PromiseManyArray<Subject>;
+}
+
+interface SparseSubject {
+    id: string;
+    text: string;
+    parent: SparseSubject | null;
 }
 
 @layout(template, styles)
 export default class SubjectPicker extends Component.extend({
-    didInsertElement(this: SubjectPicker, ...args: any[]) {
-        this._super(...args);
-
-        this.setProperties({
-            hasChanged: false,
-            columns: new Array(3)
-                .fill(null)
-                .map((): Column => EmberObject.create({
-                    subjects: [],
-                    selection: null,
-                })),
+    initializeSubjects: task(function *(this: SubjectPicker) {
+        const subjects: SparseSubject[] = yield this.model.sparseLoadAll('subjects', {
+            subject: ['text'],
         });
-
-        this.get('querySubjects').perform();
-    },
+        this.initialSubjects = [...subjects];
+        this.querySubjects.perform();
+    }),
 
     querySubjects: task(
         function *(
             this: SubjectPicker,
-            parents: string = 'null',
+            parent: string = 'null',
             tier: number = 0,
         ): IterableIterator<any> {
             const column: Column = this.columns.objectAt(tier)!;
 
-            const taxonomies: Taxonomy[] = yield this.provider.queryHasMany('taxonomies', {
+            const subjects: QueryHasManyResult<Subject> = yield this.provider.queryHasMany('subjects', {
                 filter: {
-                    parents,
+                    parent,
                 },
                 page: {
                     size: 150, // Law category has 117 (Jan 2018)
                 },
             });
 
-            column.set('subjects', taxonomies ? taxonomies.toArray() : []);
+            column.setProperties({ subjects });
         },
     ),
 }) {
+    // Required
+    model!: ModelWithSubjects;
+    provider!: Provider;
+
+    // Optional
+    editMode: boolean = defaultTo(this.editMode, false);
+
+    // Private
     @service analytics!: Analytics;
     @service store!: DS.Store;
-    @service theme!: Theme;
 
-    @alias('theme.provider') provider!: Provider;
-
-    columns!: Column[];
-    editMode: boolean = defaultTo(this.editMode, false);
-    currentSubjects: any[] = defaultTo(this.currentSubjects, []);
-    // Deep-copy the nested `currentSubjects` to `initialSubjects`.
-    // Therefore any operation on `currentSubjects` will not affect `initialSubjects`.
-    // So that we can restore to `initialSubjects` if needed.
-    initialSubjects: any[] = this.currentSubjects.map(item => [...item]);
+    initialSubjects?: SparseSubject[];
     hasChanged: boolean = false;
+    columns!: Column[];
+
+    constructor() {
+        super();
+
+        this.columns = Array.from({ length: 3 })
+            .map((): Column => EmberObject.create({
+                subjects: [],
+                selection: null,
+            }));
+    }
+
+    didReceiveAttrs() {
+        super.didReceiveAttrs();
+
+        assert('<SubjectPicker> requires @model', Boolean(this.model));
+        assert('<SubjectPicker> requires @provider', Boolean(this.provider));
+
+        this.initializeSubjects.perform();
+    }
 
     resetColumnSelections() {
         this.columns.forEach((column, i) => {
@@ -98,23 +119,16 @@ export default class SubjectPicker extends Component.extend({
 
     @action
     deselect(this: SubjectPicker, index: number) {
-        this.analytics.track(
-            'button',
-            'click',
-            `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Remove`,
-        );
-
         this.set('hasChanged', true);
         this.resetColumnSelections();
 
-        const tempSubjects: Taxonomy[][] = this.currentSubjects.slice();
+        const tempSubjects: Subject[][] = this.currentSubjects.slice();
         tempSubjects.removeAt(index);
         this.set('currentSubjects', tempSubjects);
     }
 
     @action
     select(this: SubjectPicker, tier: number, selected: Taxonomy) {
-        this.analytics.track('button', 'click', `Collections - ${this.editMode ? 'Edit' : 'Submit'} - Discipline Add`);
         // All new selected subjects are first added to `tempSubjects` before saving back to `this.currentSubjects`.
         // This is because Ember does not recognize an array model attribute as dirty
         // if we directly push objects to the array.

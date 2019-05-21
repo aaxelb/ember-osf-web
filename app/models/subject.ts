@@ -5,6 +5,7 @@ import OsfModel from './osf-model';
 
 export default class SubjectModel extends OsfModel {
     @attr('fixstring') text!: string;
+    @attr('fixstring') taxonomyName!: string;
 
     @belongsTo('subject')
     parent?: DS.PromiseObject<SubjectModel> & SubjectModel;
@@ -16,5 +17,5 @@ export default class SubjectModel extends OsfModel {
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
         'subject': SubjectModel;
-    } // eslint-disable-line semi
+    }
 }

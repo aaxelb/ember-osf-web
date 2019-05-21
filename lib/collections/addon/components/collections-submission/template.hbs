@@ -1,12 +1,15 @@
-<CollectionSubmissionConfirmationModal 
+<CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
-    @addToCollection={{action (perform this.save)}} 
+    @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
 />
 <div class='submit-header' local-class='header'>
     <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
-<div local-class='body'>
+<div
+    data-analytics-scope={{if this.edit 'Edit' 'Submit'}}
+    local-class='body'
+>
     {{#submit-sections
         activeSection=this.activeSection
         savedSections=this.savedSections
@@ -105,12 +108,17 @@
             as |section|
         }}
             {{#section.active}}
-                {{subject-picker
-                    id='subjects'
-                    currentSubjects=this.collectedMetadatum.subjects
-                    model=this.collectedMetadatum
-                    continue=(action 'nextSection')
-                }}
+                <SubjectPicker
+                    @model=this.collectedMetadatum
+                    as |subjectPicker|
+                >
+                    {{submit-section-buttons
+                        discard=subjectPicker.discard
+                        continue=(action 'nextSection')
+                        continueDisabled=(v-get this.collectedMetadatum @valuePath 'isInvalid')
+                        continueButtonLabel=(t 'app_components.submit_section.continue')
+                    }}
+                </SubjectPicker>
             {{/section.active}}
             {{#section.complete}}
                 {{collection-subjects-list subjects=this.collectedMetadatum.displaySubjects onClickSubject=(action this.noop)}}

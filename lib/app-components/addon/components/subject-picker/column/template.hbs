@@ -13,6 +13,8 @@
     {{#each subjectsFiltered as |subject|}}
         <li
             {{action select subject}}
+            data-analytics-name='Add'
+            data-analytics-category='button'
             role="option"
             aria-selected="{{eq subject.id selection.id}}"
         >

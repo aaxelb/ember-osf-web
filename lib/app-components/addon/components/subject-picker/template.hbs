@@ -1,5 +1,5 @@
-<div local-class='current-subjects'>
-    {{#each this.currentSubjects as |subject index|}}
+<div data-analytics-scope='Subjects' local-class='current-subjects'>
+    {{#each this.model.subjects as |subject index|}}
         <span local-class='subject'>
             {{#each subject as |segment|}}
                 <div local-class='subject-container'>
@@ -10,6 +10,7 @@
                             local-class='remove-subject'
                             aria-label={{t 'submit.body.remove_subject_aria'}}
                             title={{t 'app_components.subject_picker.remove'}}
+                            data-analytics-name='Remove'
                             {{action 'deselect' index}}
                         ></button>
                     </span>
@@ -28,9 +29,6 @@
         }}
     {{/each}}
 </div>
-{{submit-section-buttons
-    discard=(action 'discard')
-    continue=@continue
-    continueDisabled=(v-get @model @valuePath 'isInvalid')
-    continueButtonLabel=(t 'app_components.submit_section.continue')
-}}
+{{yield (hash
+    discard=(action this.discard)
+)}}

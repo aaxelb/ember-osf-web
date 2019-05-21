@@ -1,0 +1,9 @@
+<div local-class='columns'>
+    {{#each this.columns as |column tier|}}
+        {{subject-picker/column
+            selection=column.selection
+            subjects=column.subjects
+            select=(action 'select' tier)
+        }}
+    {{/each}}
+</div>
