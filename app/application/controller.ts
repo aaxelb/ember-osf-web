@@ -19,6 +19,13 @@ export default class Application extends Controller {
     @service theme!: Theme;
     @service features!: Features;
 
+    queryParams = [{
+        viewOnlyToken: {
+            as: 'view_only',
+        },
+    }];
+    viewOnlyToken = '';
+
     @alias(`features.${camelize(verifyEmailModals)}`)
     shouldShowVerifyEmailModals!: boolean;
 
