@@ -4,6 +4,8 @@ import { faker } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
 
+import cleanURL from 'ember-osf-web/utils/clean-url';
+
 const {
     OSF: {
         analyticsAttrs,
@@ -58,7 +60,7 @@ export async function click(target: Target) {
 export function currentURL() {
     const { owner } = (getContext() as any);
     const router = owner.lookup('router:main');
-    return router.get('location').getURL();
+    return cleanURL(router.get('location').getURL());
 }
 
 export function setupOSFApplicationTest(hooks: any) {
