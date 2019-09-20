@@ -3,6 +3,9 @@
         <Placeholder as |placeholder|>
             <placeholder.circle />
         </Placeholder>
+
+        <OsfButton @onClick={{action (mut this.isSkelly) (not this.isSkelly)}}>toggle</OsfButton>
+        <div {{skeleton-screen this.isSkelly}}>hello</div>
     </demo.example>
 
     <demo.snippet @name='placeholder.circle.hbs' />
