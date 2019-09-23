@@ -111,25 +111,25 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<ContributorModel>;
 
-    @hasMany('contributor', { inverse: null })
+    @hasMany('contributor', { inverse: null, readOnly: true })
     bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
 
-    @belongsTo('node', { inverse: 'children' })
+    @belongsTo('node', { inverse: 'children', readOnly: true })
     parent!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('region')
     region!: RegionModel;
 
-    @hasMany('node', { inverse: 'parent' })
+    @hasMany('node', { inverse: 'parent', readOnly: true })
     children!: DS.PromiseManyArray<NodeModel>;
 
-    @hasMany('preprint', { inverse: 'node' })
+    @hasMany('preprint', { inverse: 'node', readOnly: true })
     preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @hasMany('institution', { inverse: 'nodes' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
-    @hasMany('comment', { inverse: 'node' })
+    @hasMany('comment', { inverse: 'node', readOnly: true })
     comments!: DS.PromiseManyArray<CommentModel>;
 
     @belongsTo('citation')
@@ -138,7 +138,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @belongsTo('license', { inverse: null })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 
-    @hasMany('file-provider', { inverse: 'node' })
+    @hasMany('file-provider', { inverse: 'node', readOnly: true })
     files!: DS.PromiseManyArray<FileProviderModel>;
 
     @hasMany('node', { inverse: null })
@@ -147,32 +147,32 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @hasMany('registration', { inverse: null })
     linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @hasMany('registration', { inverse: 'registeredFrom' })
+    @hasMany('registration', { inverse: 'registeredFrom', readOnly: true })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @hasMany('draft-registration', { inverse: 'branchedFrom' })
+    @hasMany('draft-registration', { inverse: 'branchedFrom', readOnly: true })
     draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel>;
 
-    @hasMany('node', { inverse: 'forkedFrom' })
+    @hasMany('node', { inverse: 'forkedFrom', readOnly: true })
     forks!: DS.PromiseManyArray<NodeModel>;
 
-    @belongsTo('node', { inverse: 'forks', polymorphic: true })
+    @belongsTo('node', { inverse: 'forks', polymorphic: true, readOnly: true })
     forkedFrom!: (DS.PromiseObject<NodeModel> & NodeModel) |
         (DS.PromiseObject<RegistrationModel> & RegistrationModel);
 
-    @belongsTo('node', { inverse: null })
+    @belongsTo('node', { inverse: null, readOnly: true })
     root!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @hasMany('node', { inverse: null })
+    @hasMany('node', { inverse: null, readOnly: true })
     linkedByNodes!: DS.PromiseManyArray<NodeModel>;
 
-    @hasMany('node', { inverse: null })
+    @hasMany('node', { inverse: null, readOnly: true })
     linkedByRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @hasMany('wiki', { inverse: 'node' })
+    @hasMany('wiki', { inverse: 'node', readOnly: true })
     wikis!: DS.PromiseManyArray<WikiModel>;
 
-    @hasMany('log', { inverse: 'originalNode' })
+    @hasMany('log', { inverse: 'originalNode', readOnly: true })
     logs!: DS.PromiseManyArray<LogModel>;
 
     @hasMany('identifier', { inverse: 'referent' })

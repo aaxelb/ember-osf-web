@@ -72,31 +72,31 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
         return currentState || RegistrationState.Public;
     }
 
-    @belongsTo('node', { inverse: 'registrations' })
+    @belongsTo('node', { inverse: 'registrations', readOnly: true })
     registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @belongsTo('user', { inverse: null })
+    @belongsTo('user', { inverse: null, readOnly: true })
     registeredBy!: DS.PromiseObject<UserModel> & UserModel;
 
-    @belongsTo('registration-provider', { inverse: 'registrations' })
+    @belongsTo('registration-provider', { inverse: 'registrations', readOnly: true })
     provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: DS.PromiseManyArray<ContributorModel>;
 
-    @hasMany('comment', { inverse: 'node' })
+    @hasMany('comment', { inverse: 'node', readOnly: true })
     comments!: DS.PromiseManyArray<CommentModel>;
 
-    @belongsTo('registration-schema', { inverse: null })
+    @belongsTo('registration-schema', { inverse: null, readOnly: true })
     registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
 
-    @belongsTo('registration', { inverse: 'children' })
+    @belongsTo('registration', { inverse: 'children', readOnly: true })
     parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
-    @belongsTo('registration', { inverse: null })
+    @belongsTo('registration', { inverse: null, readOnly: true })
     root!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
-    @hasMany('registration', { inverse: 'parent' })
+    @hasMany('registration', { inverse: 'parent', readOnly: true })
     children!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('institution', { inverse: 'registrations' })

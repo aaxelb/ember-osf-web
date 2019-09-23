@@ -16,5 +16,9 @@ declare module 'ember-data' {
         interface Model {
             reload(options?: {}): RSVP.Promise<this>;
         }
+
+        interface RelationshipOptions<M extends Model> {
+            readOnly?: boolean;
+        }
     }
 }
