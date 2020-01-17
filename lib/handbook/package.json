@@ -11,8 +11,6 @@
     "ember-bootstrap": "*",
     "ember-changeset": "*",
     "ember-changeset-validations": "*",
-    "ember-cli-addon-docs": "*",
-    "ember-cli-addon-docs-typedoc": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sass": "*",

@@ -24,8 +24,6 @@ to enable the handbook at [localhost:4200/handbook](http://localhost:4200/handbo
     ```
 1. Describe the component and its usage in `template.md`.
 1. Expand on the live demo in `demo/template.hbs`
-    - Uses the [docs-demo](https://ember-learn.github.io/ember-cli-addon-docs/docs/components/docs-demo)
-        component from [ember-cli-addon-docs](https://ember-learn.github.io/ember-cli-addon-docs).
     - You can add `demo/component.ts` or `demo/styles.scss` if you need.
     - Add more demos! Show the component in a variety of states.
     - Check out the

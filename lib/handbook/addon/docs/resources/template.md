@@ -15,7 +15,6 @@
 
 ## Various Addons
 - [ember-a11y-testing](https://github.com/ember-a11y/ember-a11y-testing) - Catching easy-to-miss, easy-to-detect accessibility problems
-- [ember-cli-addon-docs](https://github.com/ember-learn/ember-cli-addon-docs) - That's this handbook
 - [ember-cli-mirage](http://www.ember-cli-mirage.com) - Fake API responses for easy testing and development
 - [ember-concurrency](http://ember-concurrency.com/docs/introduction/) - Tasks for asynchronous actions
 - [ember-css-modules](https://github.com/salsify/ember-css-modules) - Don't style globally when you can style locally
