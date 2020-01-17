@@ -26,12 +26,6 @@ export default class ApplicationRoute extends Route.extend(
     @service i18n!: I18N;
     @service currentUser!: CurrentUser;
 
-    queryParams = {
-        viewOnlyToken: {
-            refreshModel: false,
-        },
-    };
-
     afterModel() {
         const i18n = this.get('i18n');
         const availableLocales: [string] = i18n.get('locales').toArray();

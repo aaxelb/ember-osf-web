@@ -114,6 +114,26 @@ const TEST_CASES = [{
     input: '/--user/abcd/?query=param#frag',
     cleanOutput: '/abcd?query=param#frag',
     notFoundOutput: 'abcd#frag',
+}, {
+    input: '/?aoeu=',
+    cleanOutput: '/',
+    notFoundOutput: '',
+}, {
+    input: '/AttheEnd/--registries/?query=',
+    cleanOutput: '/AttheEnd',
+    notFoundOutput: 'AttheEnd',
+}, {
+    input: '/normal--url/?query=param&empty=',
+    cleanOutput: '/normal--url?query=param',
+    notFoundOutput: 'normal--url',
+}, {
+    input: '/--user/abcd/?some-empty=#frag',
+    cleanOutput: '/abcd#frag',
+    notFoundOutput: 'abcd#frag',
+}, {
+    input: '/--user/abcd/?blah=&blee=&query=param#frag',
+    cleanOutput: '/abcd?query=param#frag',
+    notFoundOutput: 'abcd#frag',
 }];
 
 module('Unit | Utility | cleanURL', () => {

@@ -1,5 +1,12 @@
-import { addPathSegment, addQueryParam, joinUrl, splitUrl } from 'ember-osf-web/utils/url-parts';
 import { module, test } from 'qunit';
+
+import {
+    addPathSegment,
+    addQueryParam,
+    filterQueryParams,
+    joinUrl,
+    splitUrl,
+} from 'ember-osf-web/utils/url-parts';
 
 module('Unit | Utility | url-parts', () => {
     test('splitUrl and joinUrl', assert => {
@@ -138,6 +145,78 @@ module('Unit | Utility | url-parts', () => {
                 testCase.segment,
             );
             assert.equal(actual, testCase.expected, 'addPathSegment added a path segment');
+        }
+    });
+
+    test('filterQueryParams', assert => {
+        const testCases: Array<{
+            initial: string,
+            filterFn: (k: string, v: string) => boolean,
+            expected: string,
+        }> = [
+            {
+                initial: 'https://osf.io/',
+                filterFn: () => true,
+                expected: 'https://osf.io/',
+            },
+            {
+                initial: 'https://osf.io/?blah=blee&bloo=blah&blee=blee',
+                filterFn: () => true,
+                expected: 'https://osf.io/?blah=blee&bloo=blah&blee=blee',
+            },
+            {
+                initial: 'https://osf.io/?blah=blee&bloo=blah&blee=blee',
+                filterFn: () => false,
+                expected: 'https://osf.io/',
+            },
+            {
+                initial: 'https://osf.io/?blah=blee&bloo=blah&blee=blee',
+                filterFn: (k, v) => k === v,
+                expected: 'https://osf.io/?blah=blee&bloo=blah',
+            },
+            {
+                initial: 'https://osf.io/?blah=blah&bloo=blah&blee=blee',
+                filterFn: (k, v) => k !== v,
+                expected: 'https://osf.io/?bloo=blah',
+            },
+            {
+                initial: 'https://osf.io/?blah=blah&bloo=blah&blee=blee#plus-fragment',
+                filterFn: (k, v) => k !== v,
+                expected: 'https://osf.io/?bloo=blah#plus-fragment',
+            },
+            {
+                initial: '/just/a/path?blah=blee&bloo=blah&blee=blee',
+                filterFn: () => true,
+                expected: '/just/a/path?blah=blee&bloo=blah&blee=blee',
+            },
+            {
+                initial: '/just/a/path?blah=blee&bloo=blah&blee=blee',
+                filterFn: () => false,
+                expected: '/just/a/path',
+            },
+            {
+                initial: '/just/a/path?blah=blee&bloo=blah&blee=blee',
+                filterFn: (k, v) => k === v,
+                expected: '/just/a/path?blah=blee&bloo=blah',
+            },
+            {
+                initial: '/just/a/path?blah=blee&bloo=blah&blee=blee#plus-fragment',
+                filterFn: () => false,
+                expected: '/just/a/path#plus-fragment',
+            },
+            {
+                initial: '/just/a/path?blah=blee&bloo=blah&blee=blee#plus-fragment',
+                filterFn: (k, v) => k === v,
+                expected: '/just/a/path?blah=blee&bloo=blah#plus-fragment',
+            },
+        ];
+
+        for (const testCase of testCases) {
+            const actual = filterQueryParams(
+                testCase.initial,
+                testCase.filterFn,
+            );
+            assert.equal(actual, testCase.expected, 'filterQueryParams filtered query params');
         }
     });
 });

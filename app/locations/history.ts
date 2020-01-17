@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { waitForQueue } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 
-import GuidLocationMixin from 'ember-osf-web/locations/guid-mixin';
+import CleanUrlLocationMixin from 'ember-osf-web/locations/clean-url-mixin';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import Ready from 'ember-osf-web/services/ready';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
@@ -17,7 +17,7 @@ function splitFragment(url: string): [string, string?] {
 }
 
 // Add support for scrolling to elements according to the URL's #fragment.
-export default class FragmentHistoryLocation extends HistoryLocation.extend(GuidLocationMixin) {
+export default class FragmentHistoryLocation extends HistoryLocation.extend(CleanUrlLocationMixin) {
     @service ready!: Ready;
     @service osfRouter!: OsfRouterService;
 

@@ -51,6 +51,29 @@ export function addQueryParam(url: string, key: string, value: string): string {
     });
 }
 
+export function filterQueryParams(
+    url: string,
+    filterFn: (key: string, value: string) => boolean,
+): string {
+    const { path, queryString, fragment } = splitUrl(url);
+
+    const queryParams = deserializeQueryString(queryString || '');
+
+    const filteredQueryParams: Record<string, string> = {};
+
+    Object.entries(queryParams)
+        .filter(([key, value]) => filterFn(key, value))
+        .forEach(([key, value]) => {
+            filteredQueryParams[key] = value;
+        });
+
+    return joinUrl({
+        path,
+        queryString: param(filteredQueryParams),
+        fragment,
+    });
+}
+
 export function addPathSegment(url: string, segment: string): string {
     const { path, queryString, fragment } = splitUrl(url);
     return joinUrl({
