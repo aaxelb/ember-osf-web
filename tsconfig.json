@@ -74,12 +74,6 @@
       ],
       "*": [
         "types/*"
-      ],
-      "markdown-templates/test-support": [
-        "lib/markdown-templates/addon-test-support"
-      ],
-      "markdown-templates/test-support/*": [
-        "lib/markdown-templates/addon-test-support/*"
       ]
     },
     "experimentalDecorators": true,

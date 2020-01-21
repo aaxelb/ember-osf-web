@@ -13,6 +13,7 @@
     "ember-changeset-validations": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
+    "ember-cli-markdown-templates": "*",
     "ember-cli-sass": "*",
     "ember-cli-typescript": "*",
     "ember-code-snippet": "*",

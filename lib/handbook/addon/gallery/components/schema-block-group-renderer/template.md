@@ -17,14 +17,14 @@ To be used with Registries submission forms.  Given a schema group, changeset an
 
 
 ## Editable
-{{docs/components/schema-block-group-renderer/-components/editable
+{{gallery/components/schema-block-group-renderer/-components/editable
     schemaBlockGroups=this.schemaBlockGroups
     changeset=this.registrationResponseChangeset
     node=this.model
 }}
 
 ## Read-only
-{{docs/components/schema-block-group-renderer/-components/read-only
+{{gallery/components/schema-block-group-renderer/-components/read-only
     schemaBlockGroups=this.schemaBlockGroups
     registrationResponses=this.registrationResponses
     node=this.model

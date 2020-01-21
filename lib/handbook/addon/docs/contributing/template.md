@@ -6,7 +6,7 @@ If you see anything you'd like to add or correct, just make a pull request!
 ## Editing a handbook page
 Click "Edit this page" at the bottom of any handbook page to edit and submit a PR on GitHub.
 
-Try it out on the <OsfLink @route='docs.troubleshooting'>troubleshooting page</OsfLink> next
+Try it out on the <OsfLink @route='handbook.docs.troubleshooting'>troubleshooting page</OsfLink> next
 time you work through a problem.
 
 ## Running the handbook locally
@@ -27,7 +27,9 @@ to enable the handbook at [localhost:4200/handbook](http://localhost:4200/handbo
     - You can add `demo/component.ts` or `demo/styles.scss` if you need.
     - Add more demos! Show the component in a variety of states.
     - Check out the
-    {{#link-to 'docs.components.loading-indicator'}}loading-indicator demos{{/link-to}}
+    <OsfLink @route='handbook.gallery.components.loading-indicator'>
+        loading-indicator demos
+    </OsfLink>
     for a simple example.
 
 ## Adding a new handbook page

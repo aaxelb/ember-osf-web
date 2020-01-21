@@ -4,4 +4,4 @@ A wrapper component that provides consistent behavior for editing registration/n
 through a manager component.
 
 ## editable institutions
-{{docs/components/editable-field/institutions registration=this.model}}
+{{gallery/components/editable-field/institutions registration=this.model}}

@@ -7,10 +7,10 @@ In addition to the standard look and functionality, we:
  - Gave the close button an aria-label to work well with i18n.
 
 ## info
-{{docs/components/bs-alert/demo-info}}
+{{gallery/components/bs-alert/demo-info}}
 
 ## warning (not dismissible)
-{{docs/components/bs-alert/demo-warn-no-dismiss}}
+{{gallery/components/bs-alert/demo-warn-no-dismiss}}
 
 ## danger (hidden)
-{{docs/components/bs-alert/demo-danger-hidden}}
+{{gallery/components/bs-alert/demo-danger-hidden}}

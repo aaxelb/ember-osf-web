@@ -3,10 +3,10 @@
 Render content in a panel.
 
 ## Using arguments
-{{docs/components/panel/demo-args}}
+{{gallery/components/panel/demo-args}}
 
 ## Using blocks
-{{docs/components/panel/demo-blocks}}
+{{gallery/components/panel/demo-blocks}}
 
 ## Using both
-{{docs/components/panel/demo-mix}}
+{{gallery/components/panel/demo-mix}}

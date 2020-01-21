@@ -3,4 +3,4 @@
 ## Parameters
 
 ## demo
-{{docs/components/subject-widget/demo model=this.model}}
+{{gallery/components/subject-widget/demo model=this.model}}

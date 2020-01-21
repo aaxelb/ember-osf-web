@@ -30,10 +30,10 @@ Number of contributors:
 
 
 ### default usage
-{{docs/components/contributor-list/-components/demo-default node=this.node}}
+{{gallery/components/contributor-list/-components/demo-default node=this.node}}
 
 ### links
-{{docs/components/contributor-list/-components/demo-links node=this.node}}
+{{gallery/components/contributor-list/-components/demo-links node=this.node}}
 
 ### untruncated
-{{docs/components/contributor-list/-components/demo-untruncated node=this.node}}
+{{gallery/components/contributor-list/-components/demo-untruncated node=this.node}}

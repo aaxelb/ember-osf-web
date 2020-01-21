@@ -37,7 +37,7 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
     * `textarea`
 
 ## Demo: Create
-{{docs/components/validated-model-form/demo-create
+{{gallery/components/validated-model-form/demo-create
     onSave=(action this.onSave)
     changeDirtCreateForm=(action this.changeDirtCreateForm)
 }}
@@ -45,7 +45,7 @@ When invoked in block form, `validated-model-form` yields a hash with the follow
 ## Demo: Edit
 This also shows how to use the `rollback`, `onDirtChange()`, `onWillDestroy()`, and `onSave()` actions.
 
-{{docs/components/validated-model-form/demo-edit
+{{gallery/components/validated-model-form/demo-edit
     onSave=(action this.onSave)
     onWillDestroy=(action this.onWillDestroy)
     node=this.existingNode
