@@ -193,7 +193,6 @@ declare const config: {
         };
         handbook: {
             enabled: boolean;
-            docGenerationEnabled: boolean;
         };
     };
     'ember-cli-tailwind'?: {
