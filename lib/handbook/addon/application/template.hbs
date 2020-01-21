@@ -1,4 +1,60 @@
-<div local-class='Handbook'>
-    {{docs-header}}
-    {{outlet}}
-</div>
+<OsfLayout as |layout|>
+    <layout.top>
+        <h1>OSF Front-end Developers' Handbook</h1>
+    </layout.top>
+
+    <layout.left>
+        <HandbookNav as |nav|>
+            <nav.section @label='Introduction' />
+            <nav.item @label='What is this handbook?' @route='docs.index' />
+            <nav.item @label='Contributing to the handbook' @route='docs.contributing' />
+
+            <nav.section @label='Development' />
+            <nav.item @label='Quickstart' @route='docs.quickstart' />
+            <nav.item @label='How to…' @route='docs.how-to' />
+            <nav.item @label='Troubleshooting' @route='docs.troubleshooting' />
+            <nav.item @label='Developer Environment' @route='docs.dev-env' />
+            <nav.item @label='Testing' @route='docs.testing' />
+            <nav.item @label='Analytics' @route='docs.analytics' />
+            <nav.item @label='Additional resources' @route='docs.resources' />
+
+            <nav.section @label='Style guide' />
+            <nav.item @label='Visual style' @route='docs.visual-style' />
+            <nav.item @label='Written style' @route='docs.written-style' />
+
+            <nav.section @label='Component gallery' />
+            <nav.item @label='ancestry-display' @route='gallery.components.ancestry-display' />
+            <nav.item @label='bs-alert' @route='gallery.components.bs-alert' />
+            <nav.item @label='contributor-list' @route='gallery.components.contributor-list' />
+            <nav.item @label='copyable-text' @route='gallery.components.copyable-text' />
+            <nav.item @label='delete-button' @route='gallery.components.delete-button' />
+            <nav.item @label='editable-field' @route='gallery.components.editable-field' />
+            <nav.item @label='files-widget' @route='gallery.components.files-widget' />
+            <nav.item @label='form-controls' @route='gallery.components.form-controls' />
+            <nav.item @label='institutions-widget' @route='gallery.components.institutions-widget' />
+            <nav.item @label='loading-indicator' @route='gallery.components.loading-indicator' />
+            <nav.item @label='subject-widget' @route='gallery.components.subject-widget' />
+            <nav.item @label='new-project-modal' @route='gallery.components.new-project-modal' />
+            <nav.item @label='new-project-navigation-modal' @route='gallery.components.new-project-navigation-modal' />
+            <nav.item @label='osf-button' @route='gallery.components.osf-button' />
+            <nav.item @label='osf-layout' @route='gallery.components.osf-layout' />
+            <nav.item @label='osf-link' @route='gallery.components.osf-link' />
+            <nav.item @label='osf-dialog' @route='gallery.components.osf-dialog' />
+            <nav.item @label='panel' @route='gallery.components.panel' />
+            <nav.item @label='osf-placeholder' @route='gallery.components.osf-placeholder' />
+            <nav.item @label='schema-block-group-renderer' @route='gallery.components.schema-block-group-renderer' />
+            <nav.item @label='tags-widget' @route='gallery.components.tags-widget' />
+            <nav.item @label='validated-model-form' @route='gallery.components.validated-model-form' />
+
+            <nav.section @label='validators' />
+            <nav.item @label='validateList' @route='gallery.validators.validate-list' />
+
+            <nav.section @label='helpers' />
+            <nav.item @label='has-validation-error' @route='gallery.helpers.has-validation-error' />
+        </HandbookNav>
+    </layout.left>
+
+    <layout.main>
+        {{outlet}}
+    </layout.main>
+</OsfLayout>
