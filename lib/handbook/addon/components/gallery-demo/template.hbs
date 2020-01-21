@@ -1,1 +1,10 @@
-{{yield}}
+<div class='Rendered'>
+    {{yield (hash
+       example=(component 'gallery-demo/x-example')
+    )}}
+</div>
+<div class='Snippets'>
+    {{yield (hash
+       snippet=(component 'gallery-demo/x-snippet')
+    )}}
+</div>

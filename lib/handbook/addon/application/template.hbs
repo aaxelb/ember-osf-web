@@ -1,4 +1,4 @@
-<OsfLayout as |layout|>
+<OsfLayout @backgroundClass={{local-class 'HandbookBackground'}} as |layout|>
     <layout.top>
         <h1>OSF Front-end Developers' Handbook</h1>
     </layout.top>
@@ -6,7 +6,7 @@
     <layout.left>
         <HandbookNav as |nav|>
             <nav.section @label='Introduction' />
-            <nav.item @label='What is this handbook?' @route='docs.index' />
+            <nav.item @label='What is this handbook?' @route='docs.intro' />
             <nav.item @label='Contributing to the handbook' @route='docs.contributing' />
 
             <nav.section @label='Development' />

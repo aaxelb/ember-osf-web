@@ -7771,6 +7771,17 @@ ember-cli-lodash-subset@^2.0.1:
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
   integrity sha1-IMtop5D+D94kiN39jvu332/nZvI=
 
+ember-cli-markdown-templates@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ember-cli-markdown-templates/-/ember-cli-markdown-templates-0.0.4.tgz#02df63db50f730655479b08cb0a195e7588e7629"
+  integrity sha512-5/sD20JSqVSoakrHAh5ccLk2qweci7dGZWDGTxTdsSt1wjiIpy877+vSfGffm9MalqLHi5TEupBu5SdE551YrA==
+  dependencies:
+    broccoli-stew "^2.0.0"
+    ember-cli-babel "^6.6.0"
+    front-matter "^3.0.2"
+    highlightjs "^9.10.0"
+    marked "^0.5.0"
+
 ember-cli-meta-tags@^5.0.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/ember-cli-meta-tags/-/ember-cli-meta-tags-5.3.0.tgz#252f9ae415b4d864a8a72b2efe6eca3d61135415"
@@ -10289,6 +10300,13 @@ from2@^2.1.0, from2@^2.1.1:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
+front-matter@^3.0.2:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/front-matter/-/front-matter-3.1.0.tgz#a0b758c3c6c39ce43e107dd0909a57d42964c2de"
+  integrity sha512-RFEK8N6waWTdwBZOPNEtvwMjZ/hUfpwXkYUYkmmOhQGdhSulXhWrFwiUhdhkduLDiIwbROl/faF1X/PC/GGRMw==
+  dependencies:
+    js-yaml "^3.13.1"
+
 fs-copy-file-sync@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fs-copy-file-sync/-/fs-copy-file-sync-1.1.1.tgz#11bf32c096c10d126e5f6b36d06eece776062918"
@@ -11237,6 +11255,11 @@ heimdalljs@^0.3.0:
   integrity sha1-6S0sb3f9RtW/ULYQ0orTF1UFTQs=
   dependencies:
     rsvp "~3.2.1"
+
+highlightjs@^9.10.0:
+  version "9.16.2"
+  resolved "https://registry.yarnpkg.com/highlightjs/-/highlightjs-9.16.2.tgz#07ea6cc7c93340fc440734fb7abf28558f1f0fe1"
+  integrity sha512-FK1vmMj8BbEipEy8DLIvp71t5UsC7n2D6En/UfM/91PCwmOpj6f2iu0Y0coRC62KSRHHC+dquM2xMULV/X7NFg==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -13404,6 +13427,16 @@ markdown-table@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.2.tgz#c78db948fa879903a41bce522e3b96f801c63786"
   integrity sha512-NcWuJFHDA8V3wkDgR/j4+gZx+YQwstPgfQDV8ndUeWWzta3dnDTBxpVzqS9lkmJAuV5YX35lmyojl6HO5JXAgw==
+
+marked@^0.5.0:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.5.2.tgz#3efdb27b1fd0ecec4f5aba362bddcd18120e5ba9"
+  integrity sha512-fdZvBa7/vSQIZCi4uuwo2N3q+7jJURpMVCcbaX0S1Mg65WZ5ilXvC67MviJAsdjqqgD+CEq4RKo5AYGgINkVAA==
+
+marked@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.8.0.tgz#ec5c0c9b93878dc52dd54be8d0e524097bd81a99"
+  integrity sha512-MyUe+T/Pw4TZufHkzAfDj6HarCBWia2y27/bhuYkTaiUnfDYFnCP3KUN+9oM7Wi6JA2rymtVYbQu3spE0GCmxQ==
 
 match-media@^0.2.0:
   version "0.2.0"
