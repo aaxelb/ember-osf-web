@@ -26,7 +26,7 @@ module.exports = function(defaults) {
             // ember-code-snippets
             includeHighlightJS: false,
             includeFileExtensionInSnippetNames: false,
-            snippetSearchPaths: ['lib/handbook/addon'],
+            snippetSearchPaths: ['app/handbook/gallery'],
             snippetRegexes: [{
                 begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
                 end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,

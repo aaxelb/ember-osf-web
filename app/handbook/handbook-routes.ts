@@ -58,6 +58,4 @@ export default function handbookRoutes(this: RouterDSL) {
             this.route('validate-list');
         });
     });
-
-    this.route('not-found', { path: '/*path' });
 }
