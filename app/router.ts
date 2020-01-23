@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import Ember from 'ember';
 import config from 'ember-get-config';
 
+import handbookRoutes from 'ember-osf-web/handbook/routes';
 import { Blocker } from 'ember-osf-web/services/ready';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
@@ -129,7 +130,7 @@ Router.map(function() {
     }
 
     if (handbook.enabled) {
-        this.mount('handbook');
+        handbookRoutes.apply(this);
     }
 
     if (registries.enabled) {

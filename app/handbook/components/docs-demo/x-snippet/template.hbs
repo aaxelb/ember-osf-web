@@ -1,0 +1,4 @@
+<h3>{{or @label @name}}</h3>
+{{#let (get-code-snippet @name) as |snippet|}}
+    <pre>{{snippet.source}}</pre>
+{{/let}}

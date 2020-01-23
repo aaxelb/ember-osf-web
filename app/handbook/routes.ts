@@ -1,6 +1,6 @@
-import buildRoutes from 'ember-engines/routes';
+import RouterDSL from '@ember/routing/-private/router-dsl';
 
-export default buildRoutes(function() {
+export default function handbookRoutes(this: RouterDSL) {
     this.route('docs', function() {
         this.route('intro');
         this.route('assumptions');
@@ -60,4 +60,4 @@ export default buildRoutes(function() {
     });
 
     this.route('not-found', { path: '/*path' });
-});
+}
