@@ -22,12 +22,12 @@ Default: <code>/</code>
 
 
 ## One ancestor
-{{gallery/components/ancestry-display/-components/demo-one-ancestor node=this.model.child}}
+{{handbook/gallery/components/ancestry-display/-components/demo-one-ancestor node=this.model.child}}
 ## Two ancestors
-{{gallery/components/ancestry-display/-components/demo-two-ancestors node=this.model.grandChild}}
+{{handbook/gallery/components/ancestry-display/-components/demo-two-ancestors node=this.model.grandChild}}
 ## More than two ancestors
-{{gallery/components/ancestry-display/-components/demo-two-plus-ancestors node=this.model.greatGrandChild}}
+{{handbook/gallery/components/ancestry-display/-components/demo-two-plus-ancestors node=this.model.greatGrandChild}}
 ## delimiter
-{{gallery/components/ancestry-display/-components/demo-delimiter node=this.model.grandChild}}
+{{handbook/gallery/components/ancestry-display/-components/demo-delimiter node=this.model.grandChild}}
 ## useLinks
-{{gallery/components/ancestry-display/-components/demo-use-links node=this.model.grandChild}}
+{{handbook/gallery/components/ancestry-display/-components/demo-use-links node=this.model.grandChild}}
