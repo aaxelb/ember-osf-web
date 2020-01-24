@@ -36,7 +36,8 @@
         "tests/*"
       ],
       "ember-osf-web/*": [
-        "app/*"
+        "app/*",
+        "lib/dev-handbook/app/*"
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"
@@ -68,6 +69,12 @@
       ],
       "*": [
         "types/*"
+      ],
+      "dev-handbook": [
+        "lib/dev-handbook/app"
+      ],
+      "dev-handbook/*": [
+        "lib/dev-handbook/app/*"
       ]
     },
     "experimentalDecorators": true,
@@ -83,6 +90,7 @@
     "lib/collections",
     "lib/app-components",
     "lib/osf-components",
-    "lib/registries"
+    "lib/registries",
+    "lib/dev-handbook"
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "dev-handbook",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "*",
+    "ember-cli-typescript": "*"
+  },
+  "after": [
+    "ember-cli-markdown-templates"
+  ]
+}

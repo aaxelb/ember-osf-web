@@ -230,6 +230,7 @@
       "lib/analytics-page",
       "lib/assets-prefix-middleware",
       "lib/collections",
+      "lib/dev-handbook",
       "lib/osf-components",
       "lib/registries"
     ]
