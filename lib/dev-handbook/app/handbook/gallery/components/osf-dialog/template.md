@@ -48,21 +48,21 @@ Invoked as `<OsfDialog as |dialog|>`, the yielded hash `dialog` provides the fol
 
 ### Small dialog
 `<OsfDialog>` will shrink to fit its contents:
-{{gallery/components/osf-dialog/-components/demo-little}}
+{{handbook/gallery/components/osf-dialog/-components/demo-little}}
 
 ### Large dialog
 `<OsfDialog>` will grow to fit its contents, but will never grow larger than the browser viewport:
-{{gallery/components/osf-dialog/-components/demo-big}}
+{{handbook/gallery/components/osf-dialog/-components/demo-big}}
 
 ### Using `@isOpen`
 Instead of using `<dialog.trigger>`, you can also open/close the dialog by passing `@isOpen`:
-{{gallery/components/osf-dialog/-components/demo-is-open}}
+{{handbook/gallery/components/osf-dialog/-components/demo-is-open}}
 
 ### No outside click
 By default, `<OsfDialog>` will close when the user clicks outside. You can disable this behavior
 with `@closeOnOutsideClick={{false}}`.
-{{gallery/components/osf-dialog/-components/demo-no-outside-click}}
+{{handbook/gallery/components/osf-dialog/-components/demo-no-outside-click}}
 
 ### Non-modal dialogs
 Use `@isModal={{false}}` to show a dialog that does not block interaction with the rest of the app.
-{{gallery/components/osf-dialog/-components/demo-non-modal}}
+{{handbook/gallery/components/osf-dialog/-components/demo-non-modal}}

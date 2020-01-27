@@ -3,4 +3,4 @@
 A file browser that supports uploads.
 
 ## default
-{{gallery/components/files-widget/demo model=this.model}}
+{{handbook/gallery/components/files-widget/demo model=this.model}}

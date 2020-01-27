@@ -16,13 +16,13 @@ When invoked in a form, `<FormControls />` yields a hash with the following keys
     * `textarea`
 
 ## Demo: Default
-{{gallery/components/form-controls/demo-default
+{{handbook/gallery/components/form-controls/demo-default
     submit=(action this.submit)
     changeset=this.changeset
 }}
 
 ## Demo: Disabled
-{{gallery/components/form-controls/demo-disabled
+{{handbook/gallery/components/form-controls/demo-disabled
     submit=(action this.submit)
     changeset=this.changeset
 }}

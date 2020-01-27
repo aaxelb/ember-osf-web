@@ -15,4 +15,4 @@ An action to do whatever you need to close the modal when the user decides to st
 A string of the call to action for creating a new project.
 
 ## demo
-{{gallery/components/new-project-navigation-modal/demo node=node}}
+{{handbook/gallery/components/new-project-navigation-modal/demo node=node}}

@@ -11,4 +11,4 @@ own component will make it much easier to add functionality across all buttons, 
 or style.
 
 ## demo
-{{gallery/components/osf-button/-components/demo}}
+{{handbook/gallery/components/osf-button/-components/demo}}

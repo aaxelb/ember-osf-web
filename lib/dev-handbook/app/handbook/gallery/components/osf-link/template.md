@@ -36,10 +36,10 @@ In block form, yields a hash with the following properties:
 * `active`: `true` if the current page is the target route or one of its children
 
 ## Internal link
-{{gallery/components/osf-link/-components/demo-internal}}
+{{handbook/gallery/components/osf-link/-components/demo-internal}}
 
 ## External link
-{{gallery/components/osf-link/-components/demo-external}}
+{{handbook/gallery/components/osf-link/-components/demo-external}}
 
 ## Click handler
-{{gallery/components/osf-link/-components/demo-onclick}}
+{{handbook/gallery/components/osf-link/-components/demo-onclick}}

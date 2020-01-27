@@ -15,7 +15,7 @@ To show all of the tags associated with a file/project
 ## Demos
 
 ### Default
-{{gallery/components/tags-widget/-components/default node=this.taggable}}
+{{handbook/gallery/components/tags-widget/-components/default node=this.taggable}}
 
 ### Writable
-{{gallery/components/tags-widget/-components/writable node=this.taggable}}
+{{handbook/gallery/components/tags-widget/-components/writable node=this.taggable}}

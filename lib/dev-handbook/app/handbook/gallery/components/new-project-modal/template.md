@@ -9,7 +9,7 @@ An action you pass in that it calls when it creates a project. This is a good op
 Passed to `bs-modal`'s `onHidden` parameter.
 
 ## demo
-{{gallery/components/new-project-modal/demo 
+{{handbook/gallery/components/new-project-modal/demo 
     projectCreated=this.projectCreated
     closeModal=this.closeModal
     openModal=this.openModal

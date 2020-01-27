@@ -3,4 +3,4 @@
 describe your component here!
 
 ## demo
-{{gallery/components/<%= dasherizedModuleName %>/-components/demo}}
+{{handbook/gallery/components/<%= dasherizedModuleName %>/-components/demo}}
