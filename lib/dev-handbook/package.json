@@ -5,7 +5,8 @@
   ],
   "dependencies": {
     "ember-cli-babel": "*",
-    "ember-cli-typescript": "*"
+    "ember-cli-typescript": "*",
+    "ember-css-modules": "*"
   },
   "after": [
     "ember-cli-markdown-templates"

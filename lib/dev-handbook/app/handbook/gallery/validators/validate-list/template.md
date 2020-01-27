@@ -9,4 +9,4 @@
 </DocsDemo>
 
 ## Demo
-<Docs::Validators::ValidateList::Demo />
+<Handbook::Gallery::Validators::ValidateList::Demo />
