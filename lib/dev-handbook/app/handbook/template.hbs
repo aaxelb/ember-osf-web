@@ -5,52 +5,58 @@
 
     <layout.left>
         <HandbookNav as |nav|>
-            <nav.section @label='Introduction' />
-            <nav.item @label='What is this handbook?' @route='handbook.docs.intro' />
-            <nav.item @label='Contributing to the handbook' @route='handbook.docs.contributing' />
+            <nav.section @label='Introduction'>
+                <nav.item @label='What is this handbook?' @route='handbook.docs.intro' />
+                <nav.item @label='Contributing to the handbook' @route='handbook.docs.contributing' />
+            </nav.section>
 
-            <nav.section @label='Development' />
-            <nav.item @label='Quickstart' @route='handbook.docs.quickstart' />
-            <nav.item @label='How to…' @route='handbook.docs.how-to' />
-            <nav.item @label='Troubleshooting' @route='handbook.docs.troubleshooting' />
-            <nav.item @label='Developer Environment' @route='handbook.docs.dev-env' />
-            <nav.item @label='Testing' @route='handbook.docs.testing' />
-            <nav.item @label='Analytics' @route='handbook.docs.analytics' />
-            <nav.item @label='Additional resources' @route='handbook.docs.resources' />
+            <nav.section @label='Development'>
+                <nav.item @label='Quickstart' @route='handbook.docs.quickstart' />
+                <nav.item @label='How to…' @route='handbook.docs.how-to' />
+                <nav.item @label='Troubleshooting' @route='handbook.docs.troubleshooting' />
+                <nav.item @label='Developer Environment' @route='handbook.docs.dev-env' />
+                <nav.item @label='Testing' @route='handbook.docs.testing' />
+                <nav.item @label='Analytics' @route='handbook.docs.analytics' />
+                <nav.item @label='Additional resources' @route='handbook.docs.resources' />
+            </nav.section>
 
-            <nav.section @label='Style guide' />
-            <nav.item @label='Visual style' @route='handbook.docs.visual-style' />
-            <nav.item @label='Written style' @route='handbook.docs.written-style' />
+            <nav.section @label='Style guide'>
+                <nav.item @label='Visual style' @route='handbook.docs.visual-style' />
+                <nav.item @label='Written style' @route='handbook.docs.written-style' />
+            </nav.section>
 
-            <nav.section @label='Component gallery' />
-            <nav.item @label='ancestry-display' @route='handbook.gallery.components.ancestry-display' />
-            <nav.item @label='bs-alert' @route='handbook.gallery.components.bs-alert' />
-            <nav.item @label='contributor-list' @route='handbook.gallery.components.contributor-list' />
-            <nav.item @label='copyable-text' @route='handbook.gallery.components.copyable-text' />
-            <nav.item @label='delete-button' @route='handbook.gallery.components.delete-button' />
-            <nav.item @label='editable-field' @route='handbook.gallery.components.editable-field' />
-            <nav.item @label='files-widget' @route='handbook.gallery.components.files-widget' />
-            <nav.item @label='form-controls' @route='handbook.gallery.components.form-controls' />
-            <nav.item @label='institutions-widget' @route='handbook.gallery.components.institutions-widget' />
-            <nav.item @label='loading-indicator' @route='handbook.gallery.components.loading-indicator' />
-            <nav.item @label='subject-widget' @route='handbook.gallery.components.subject-widget' />
-            <nav.item @label='new-project-modal' @route='handbook.gallery.components.new-project-modal' />
-            <nav.item @label='new-project-navigation-modal' @route='handbook.gallery.components.new-project-navigation-modal' />
-            <nav.item @label='osf-button' @route='handbook.gallery.components.osf-button' />
-            <nav.item @label='osf-layout' @route='handbook.gallery.components.osf-layout' />
-            <nav.item @label='osf-link' @route='handbook.gallery.components.osf-link' />
-            <nav.item @label='osf-dialog' @route='handbook.gallery.components.osf-dialog' />
-            <nav.item @label='panel' @route='handbook.gallery.components.panel' />
-            <nav.item @label='osf-placeholder' @route='handbook.gallery.components.osf-placeholder' />
-            <nav.item @label='schema-block-group-renderer' @route='handbook.gallery.components.schema-block-group-renderer' />
-            <nav.item @label='tags-widget' @route='handbook.gallery.components.tags-widget' />
-            <nav.item @label='validated-model-form' @route='handbook.gallery.components.validated-model-form' />
+            <nav.section @label='Component gallery'>
+                <nav.item @label='ancestry-display' @route='handbook.gallery.components.ancestry-display' />
+                <nav.item @label='bs-alert' @route='handbook.gallery.components.bs-alert' />
+                <nav.item @label='contributor-list' @route='handbook.gallery.components.contributor-list' />
+                <nav.item @label='copyable-text' @route='handbook.gallery.components.copyable-text' />
+                <nav.item @label='delete-button' @route='handbook.gallery.components.delete-button' />
+                <nav.item @label='editable-field' @route='handbook.gallery.components.editable-field' />
+                <nav.item @label='files-widget' @route='handbook.gallery.components.files-widget' />
+                <nav.item @label='form-controls' @route='handbook.gallery.components.form-controls' />
+                <nav.item @label='institutions-widget' @route='handbook.gallery.components.institutions-widget' />
+                <nav.item @label='loading-indicator' @route='handbook.gallery.components.loading-indicator' />
+                <nav.item @label='subject-widget' @route='handbook.gallery.components.subject-widget' />
+                <nav.item @label='new-project-modal' @route='handbook.gallery.components.new-project-modal' />
+                <nav.item @label='new-project-navigation-modal' @route='handbook.gallery.components.new-project-navigation-modal' />
+                <nav.item @label='osf-button' @route='handbook.gallery.components.osf-button' />
+                <nav.item @label='osf-layout' @route='handbook.gallery.components.osf-layout' />
+                <nav.item @label='osf-link' @route='handbook.gallery.components.osf-link' />
+                <nav.item @label='osf-dialog' @route='handbook.gallery.components.osf-dialog' />
+                <nav.item @label='panel' @route='handbook.gallery.components.panel' />
+                <nav.item @label='osf-placeholder' @route='handbook.gallery.components.osf-placeholder' />
+                <nav.item @label='schema-block-group-renderer' @route='handbook.gallery.components.schema-block-group-renderer' />
+                <nav.item @label='tags-widget' @route='handbook.gallery.components.tags-widget' />
+                <nav.item @label='validated-model-form' @route='handbook.gallery.components.validated-model-form' />
+            </nav.section>
 
-            <nav.section @label='validators' />
-            <nav.item @label='validateList' @route='handbook.gallery.validators.validate-list' />
+            <nav.section @label='validators'>
+                <nav.item @label='validateList' @route='handbook.gallery.validators.validate-list' />
+            </nav.section>
 
-            <nav.section @label='helpers' />
-            <nav.item @label='has-validation-error' @route='handbook.gallery.helpers.has-validation-error' />
+            <nav.section @label='helpers'>
+                <nav.item @label='has-validation-error' @route='handbook.gallery.helpers.has-validation-error' />
+            </nav.section>
         </HandbookNav>
     </layout.left>
 
