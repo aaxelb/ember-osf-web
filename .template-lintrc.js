@@ -14,6 +14,6 @@ module.exports = {
     },
 
     ignore: [
-        '**/app/handbook/**/*',
+        '**/lib/dev-handbook/**/*',
     ],
 };

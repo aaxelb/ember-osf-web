@@ -107,6 +107,7 @@ declare const config: {
             action: string;
         };
         doiUrlPrefix: string;
+        handbookEnabled: boolean;
     };
     social: {
         twitter: {
@@ -189,9 +190,6 @@ declare const config: {
             enabled: boolean;
         };
         registries: {
-            enabled: boolean;
-        };
-        handbook: {
             enabled: boolean;
         };
     };

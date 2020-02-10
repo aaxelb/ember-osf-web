@@ -103,5 +103,11 @@ module.exports = {
                 'ember/avoid-leaking-state-in-ember-objects': 'off',
             },
         },
+        {
+            files: ['lib/*/app/**/*.js'],
+            rules: {
+                'max-len': 'off',
+            },
+        },
     ],
 };

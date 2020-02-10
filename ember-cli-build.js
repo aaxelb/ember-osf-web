@@ -14,7 +14,7 @@ function postProcess(content) {
 
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
-    const handbookEnabled = config.engines.handbook.enabled;
+    const { handbookEnabled } = config.OSF;
 
     /*
      * Options just used by child addons of the handbook engine. Some addons
@@ -54,6 +54,7 @@ module.exports = function(defaults) {
         },
         addons: {
             blacklist: [
+                ...(handbookEnabled ? [] : ['dev-handbook']),
                 ...Object.keys(config.engines).filter(
                     engineName => !config.engines[engineName].enabled,
                 ),
