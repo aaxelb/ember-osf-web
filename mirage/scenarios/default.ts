@@ -13,10 +13,8 @@ const {
         popularNode,
     },
     mirageScenarios,
-    engines: {
-        handbook: {
-            enabled: handbookEnabled,
-        },
+    OSF: {
+        handbookEnabled,
     },
 } = config;
 

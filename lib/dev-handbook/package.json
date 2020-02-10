@@ -8,8 +8,5 @@
     "ember-cli-htmlbars": "*",
     "ember-cli-typescript": "*",
     "ember-css-modules": "*"
-  },
-  "after": [
-    "ember-cli-markdown-templates"
-  ]
+  }
 }

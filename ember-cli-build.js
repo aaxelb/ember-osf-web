@@ -23,10 +23,10 @@ module.exports = function(defaults) {
     let handbookOptions = {};
     if (handbookEnabled) {
         handbookOptions = {
-            // ember-code-snippets
+            // ember-code-snippet
             includeHighlightJS: false,
             includeFileExtensionInSnippetNames: false,
-            snippetSearchPaths: ['lib/dev-handbook/app/handbook/gallery'],
+            snippetSearchPaths: ['lib/dev-handbook/addon/handbook/gallery'],
             snippetRegexes: [{
                 begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
                 end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,

@@ -36,8 +36,7 @@
         "tests/*"
       ],
       "ember-osf-web/*": [
-        "app/*",
-        "lib/dev-handbook/app/*"
+        "app/*"
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"
@@ -67,14 +66,14 @@
         "node_modules/ember-bootstrap/addon/components/bs3/*",
         "node_modules/ember-bootstrap/addon/components/bs4/*"
       ],
-      "*": [
-        "types/*"
-      ],
       "dev-handbook": [
-        "lib/dev-handbook/app"
+        "lib/dev-handbook/addon"
       ],
       "dev-handbook/*": [
-        "lib/dev-handbook/app/*"
+        "lib/dev-handbook/addon/*"
+      ],
+      "*": [
+        "types/*"
       ]
     },
     "experimentalDecorators": true,

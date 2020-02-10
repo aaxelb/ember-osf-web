@@ -5,8 +5,8 @@ import { inject as service } from '@ember/service';
 import Ember from 'ember';
 import config from 'ember-get-config';
 
-// @tsignore
-import handbookRoutes from 'ember-osf-web/handbook-routes';
+// TODO: only import if handbook enabled
+import handbookRoutes from 'dev-handbook/handbook-routes';
 import { Blocker } from 'ember-osf-web/services/ready';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
@@ -14,11 +14,13 @@ import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 const {
     engines: {
         collections,
-        handbook,
         registries,
     },
     featureFlagNames: {
         routes: routeFlags,
+    },
+    OSF: {
+        handbookEnabled,
     },
 } = config;
 
@@ -130,7 +132,7 @@ Router.map(function() {
         this.mount('collections');
     }
 
-    if (handbook.enabled) {
+    if (handbookEnabled) {
         this.route('handbook', function() {
             handbookRoutes.apply(this);
         });
