@@ -1,0 +1,8 @@
+<p>lookin at {{this.model.reportName}}</p>
+{{#each this.model.properties.numerical as |propertyName|}}
+    <section>
+        <h3>{{propertyName}}</h3>
+        <div {{metrics-chart reports=this.model.reports dataProperty=propertyName keyProperty=(get this.model.properties.keyword 0)}}>
+        </div>
+    </section>
+{{/each}}

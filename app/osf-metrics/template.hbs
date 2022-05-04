@@ -1,0 +1,19 @@
+<OsfLayout @backgroundClass='foo' as |layout|>
+    <layout.heading>
+        <h1>osf metrics</h1>
+    </layout.heading>
+    <layout.main>
+        <ul>
+            {{#each this.model as |reportName|}}
+                <li>{{reportName}} looking back:
+                    {{#each (array 10 40 100 400 1000) as |daysBack|}}
+                        <LinkTo @route='osf-metrics.report' @models={{array reportName daysBack}}>
+                            {{daysBack}} days
+                        </LinkTo>
+                    {{/each}}
+                </li>
+            {{/each}}
+        </ul>
+        {{outlet}}
+    </layout.main>
+</OsfLayout>

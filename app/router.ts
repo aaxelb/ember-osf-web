@@ -124,6 +124,9 @@ Router.map(function() {
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });
+    this.route('osf-metrics', function() {
+        this.route('report', { path: '/:report_name/:days_back' });
+    });
 
     if (collections.enabled) {
         this.mount('collections');

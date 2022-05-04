@@ -73,6 +73,7 @@ module.exports = function(defaults) {
         },
         babel: {
             sourceMaps: 'inline',
+            plugins: [require.resolve('ember-auto-import/babel-plugin')],
         },
         sourcemaps: {
             enabled: config.sourcemapsEnabled,
