@@ -7,6 +7,7 @@ import config from 'ember-get-config';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
 import md5 from 'js-md5';
 import KeenTracking from 'keen-tracking';
+import merge from 'lodash/merge';
 import moment from 'moment';
 
 import { KeenConfig } from 'config/environment';
@@ -15,6 +16,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 
 const {
     OSF: {
+        apiUrl,
         cookies: {
             keenUserId: keenUserIdCookie,
             keenSessionId: keenSessionIdCookie,
@@ -111,6 +113,8 @@ export default class KeenAdapter extends BaseAdapter {
             },
         };
 
+        await this._logPageview(eventProperties);
+
         let sendPublicEvent = params.pagePublic;
 
         const node = await this.getCurrentNode();
@@ -144,6 +148,20 @@ export default class KeenAdapter extends BaseAdapter {
             this.privateClient.recordEvent(collection, eventData);
         }
     }
+
+    async _logPageview(eventProperties: unknown) {
+        const url = `${apiUrl}/_/metrics/event/keenstyle_pageview/`;
+        const eventData = merge(this.defaultPrivateKeenPayload(), eventProperties);
+
+        await this.currentUser.authenticatedAJAX({
+            url,
+            method: 'POST',
+            data: { eventData },
+        }, {
+            omitViewOnlyToken: true,
+        });
+    }
+
 
     getOrCreateKeenId() {
         if (!this.cookies.exists(keenUserIdCookie)) {
