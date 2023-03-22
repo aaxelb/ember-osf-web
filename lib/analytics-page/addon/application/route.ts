@@ -7,15 +7,27 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready, { Blocker } from 'ember-osf-web/services/ready';
+import captureException from 'ember-osf-web/utils/capture-exception';
+
+const { OSF: { apiUrl } } = config;
 
 export default class AnalyticsPageRoute extends Route {
     @service analytics!: AnalyticsService;
+    @service currentUser!: CurrentUser;
     @service ready!: Ready;
     @service store!: Store;
+
+    queryParams = {
+        timespan: {
+            refreshModel: true,
+        },
+    };
 
     @task
     @waitFor
@@ -49,7 +61,21 @@ export default class AnalyticsPageRoute extends Route {
         };
     }
 
-    model(_: {}, transition: Transition) {
+    @task
+    @waitFor
+    async loadChartsData(nodeId: string, timespan: string) {
+        try {
+            const responseJson = await this.currentUser.authenticatedAJAX({
+                url: `${apiUrl}/_/metrics/query/node_analytics/${nodeId}/${timespan}/`,
+            });
+            return responseJson.data.attributes;
+        } catch (e) {
+            captureException(e);
+            throw e;
+        }
+    }
+
+    model({timespan}: {timespan: string}, transition: Transition) {
         const guidRouteInfo = transition.routeInfos.find(
             routeInfo => Boolean(routeInfo.params) && 'guid' in routeInfo.params!,
         )!;
@@ -64,7 +90,11 @@ export default class AnalyticsPageRoute extends Route {
             model.taskInstance && model.taskInstance.isRunning !== undefined,
         );
 
-        return taskFor(this.getNodeWithCounts).perform(model.taskInstance);
+        return {
+            nodeId: model.guid,
+            nodeWithCountsTaskInstance: taskFor(this.getNodeWithCounts).perform(model.taskInstance),
+            chartsDataTaskInstance: taskFor(this.loadChartsData).perform(model.guid, timespan),
+        };
     }
 
     buildRouteInfoMetadata() {

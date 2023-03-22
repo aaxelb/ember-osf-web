@@ -1,112 +1,41 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
-import { restartableTask, TaskInstance } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
-import KeenDataviz from 'keen-dataviz';
-import { Moment } from 'moment';
-
-import { layout } from 'ember-osf-web/decorators/component';
-import Node from 'ember-osf-web/models/node';
-import AnalyticsService from 'ember-osf-web/services/analytics';
 
 import { ChartSpec } from 'analytics-page/components/analytics-charts/component';
-import KeenService from 'analytics-page/services/keen';
 
-import styles from './styles';
-import template from './template';
-
-enum OverlayReason {
-    Error,
-    Loading,
+interface ChartWrapperArgs {
+    // Required arguments
+    nodeId: string;
+    chartSpec: ChartSpec;
+    chartEnabled: boolean;
+    chartData: unknown;
+    apiError: boolean;
 }
 
-@layout(template, styles)
-export default class ChartWrapper extends Component {
-    @service keen!: KeenService;
+export default class ChartWrapper extends Component<ChartWrapperArgs> {
     @service intl!: Intl;
-    @service analytics!: AnalyticsService;
 
-    // Required arguments
-    chartSpec!: ChartSpec;
-    chartEnabled!: boolean;
-    nodeTaskInstance!: TaskInstance<Node>;
-    startDate!: Moment;
-    endDate!: Moment;
-
-    // Private properties
-    chart!: KeenDataviz; // set in didInsertElement
-    overlayShown = true;
-    keenError = false;
-    loading = false;
-
-    @restartableTask
-    @waitFor
-    async loadKeen() {
-        this.showOverlay(OverlayReason.Loading);
-        const node = await this.nodeTaskInstance;
-        try {
-            let data = await this.keen.queryNode(
-                node,
-                this.startDate,
-                this.endDate,
-                this.chartSpec.keenQueryType,
-                this.chartSpec.keenQueryOptions(node),
-            );
-
-            if (this.chartSpec.processData) {
-                data = this.chartSpec.processData(data, this.intl, node);
-            }
-
-            this.hideOverlay();
-            this.chart.data(data).render();
-        } catch (e) {
-            this.showOverlay(OverlayReason.Error);
-            throw e;
-        }
+    get overlayShown(): boolean {
+        const { chartEnabled, chartData, apiError } = this.args;
+        return Boolean(!chartEnabled || !chartData || apiError)
     }
 
-    didInsertElement() {
-        this.chart = new KeenDataviz()
-            .el(`#${this.elementId} .${styles.Chart}`)
-            .title(' '); // Prevent keen-dataviz from adding a default title
-
-        this.initSkeletonChart();
+    get c3ChartConfig(): unknown {
+        return (
+            this.overlayShown
+            ? this.skeletonChartConfig
+            : this.actualChartConfig
+        );
     }
 
-    didUpdateAttrs() {
-        if (this.chartEnabled) {
-            taskFor(this.loadKeen).perform();
-        }
-    }
-
-    showOverlay(reason?: OverlayReason) {
-        this.set('keenError', (reason === OverlayReason.Error));
-        this.set('loading', (reason === OverlayReason.Loading));
-        this.set('overlayShown', true);
-        this.chart.chartOptions({
-            interaction: {
-                enabled: false,
-            },
-        });
-    }
-
-    hideOverlay() {
-        this.set('overlayShown', false);
-        this.clearSkeletonChart();
-        this.chart.chartOptions({
-            interaction: {
-                enabled: true,
-            },
-        });
-    }
-
-    initSkeletonChart() {
-        this.chartSpec.configureChart(this.chart, this.intl);
-        this.chart.chartOptions({
+    get skeletonChartConfig(): unknown {
+        const c3Config: any = {
             data: {
                 labels: false,
+            },
+            keys: {
+                value: 'result',
             },
             pie: {
                 label: {
@@ -125,20 +54,21 @@ export default class ChartWrapper extends Component {
                     },
                 },
             },
-        });
-        if (this.chartSpec.fakeData) {
-            this.chart.data(this.chartSpec.fakeData());
+        };
+        const { chartSpec } = this.args;
+        if (chartSpec.fakeData) {
+            c3Config.data.json = chartSpec.fakeData();
         }
-        this.showOverlay();
-        this.chart.render();
+        return c3Config;
     }
 
-    clearSkeletonChart() {
-        this.chart.chartOptions({
-            data: {},
-            pie: {},
-            axis: {},
-        });
-        this.chartSpec.configureChart(this.chart, this.intl);
+    get actualChartConfig(): unknown {
+        const { chartSpec, chartData, nodeId } = this.args;
+        const processedData = (
+            chartSpec.processData
+            ? chartSpec.processData(chartData, this.intl, nodeId)
+            : chartData
+        );
+        return chartSpec.chartConfig(processedData, this.intl);
     }
 }

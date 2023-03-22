@@ -2,11 +2,11 @@
     {{#each this.charts as |chartSpec|}}
         <div class='col-sm-6 col-xs-12'>
             {{analytics-charts/x-chart-wrapper
-                nodeTaskInstance=@nodeTaskInstance
-                startDate=@startDate
-                endDate=@endDate
-                chartSpec=chartSpec
+                nodeId=@nodeId
                 chartEnabled=@chartsEnabled
+                chartSpec=chartSpec
+                chartData=(get @chartsDataTaskInstance.value chartSpec.chartKey)
+                apiError=@chartsDataTaskInstance.isError
             }}
         </div>
     {{/each}}

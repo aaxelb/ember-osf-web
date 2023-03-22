@@ -2,63 +2,51 @@ import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import Cookies from 'ember-cookies/services/cookies';
-import config from 'ember-get-config';
-import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
 
-const {
-    OSF: {
-        cookies: {
-            analyticsDismissAdblock: dismissAdblockCookie,
-        },
-    },
-} = config;
+type Timespan = 'week' | 'fortnight' | 'month';
 
-interface DateRange {
-    key: string;
-    start: Moment;
-    end: Moment;
+const ALL_TIMESPANS: Timespan[] = ['week', 'fortnight', 'month'];
+
+function isValidTimespan(maybeTimespan: string): maybeTimespan is Timespan {
+    return ALL_TIMESPANS.includes(maybeTimespan as any);
 }
 
 export default class ApplicationController extends Controller {
-    @service cookies!: Cookies;
     @service analytics!: AnalyticsService;
+    @service router!: RouterService;
     @service store!: Store;
 
-    dateRanges: DateRange[] = [
-        {
-            key: 'pastWeek',
-            start: moment().subtract(1, 'weeks'),
-            end: moment(),
-        },
-        {
-            key: 'pastTwoWeeks',
-            start: moment().subtract(2, 'weeks'),
-            end: moment(),
-        },
-        {
-            key: 'pastMonth',
-            start: moment().subtract(1, 'months'),
-            end: moment(),
-        },
-    ];
+    queryParams = ['timespan'];
+    timespan: string = 'week';
 
-    activeDateRange = this.dateRanges[0];
+    allTimespans = ALL_TIMESPANS;
+
+    get validTimespan(): Timespan {
+        const { timespan } = this;
+        return isValidTimespan(timespan) ? timespan : 'week';
+    }
+
+    timespanIntlKeys: Record<Timespan, string> = {
+        'week': 'analytics.dateRanges.pastWeek',
+        'fortnight': 'analytics.dateRanges.pastTwoWeeks',
+        'month': 'analytics.dateRanges.pastMonth',
+    }
+
     linksModalShown = false;
 
-    hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
     userIsBot = navigator.userAgent.includes('Prerender');
 
     linkedByQueryParams = { embed: 'bibliographic_contributors' };
 
-    @reads('model.taskInstance.value')
+    @reads('model.nodeWithCountsTaskInstance.value.taskInstance.value')
     node?: Node;
 
-    @reads('model.taskInstance.isRunning')
+    @reads('model.nodeWithCountsTaskInstance.isRunning')
     loading?: boolean;
 
     @reads('node.relationshipLinks.forks.links.related.meta.count')
@@ -70,10 +58,10 @@ export default class ApplicationController extends Controller {
     @reads('node.apiMeta.templated_by_count')
     templatedByCount?: number;
 
-    @computed('node.public', 'model.{id,modelName}')
+    @computed('node.public')
     get nodePublic() {
-        const node: Node | null = this.node || this.store.peekRecord(this.model.modelName, this.model.id);
-        return node && node.public;
+        const { node } = this;
+        return !node || node.public;
     }
 
     @computed('nodePublic', 'userIsBot')
@@ -82,22 +70,12 @@ export default class ApplicationController extends Controller {
     }
 
     @action
-    dismissAdblockWarning() {
-        this.cookies.write(dismissAdblockCookie, 1, { path: '/' });
-        this.set('hideAdblockWarning', true);
+    setTimespan(timespan: Timespan) {
         this.analytics.click(
             'button',
-            'Analytics - Dismiss adblock warning',
+            `Analytics - Choose date range "${timespan}"`,
         );
-    }
-
-    @action
-    setDateRange(dateRange: DateRange) {
-        this.set('activeDateRange', dateRange);
-        this.analytics.click(
-            'button',
-            `Analytics - Choose date range "${dateRange.key}"`,
-        );
+        this.router.transitionTo({ queryParams: { timespan } });
     }
 
     @action

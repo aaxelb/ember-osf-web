@@ -8,10 +8,10 @@
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <h2>{{this.forksCount}}</h2>
+                    <div local-class='Count'>{{this.forksCount}}</div>
                     {{#link-to-external
                         (if this.node.isProject 'nodeForks' 'registrationForks')
-                        this.model.id
+                        this.node.id
                     }}
                         {{t 'analytics.viewForks'}}
                     {{/link-to-external}}
@@ -24,7 +24,7 @@
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <h2>{{this.linkedByCount}}</h2>
+                    <div local-class='Count'>{{this.linkedByCount}}</div>
                     <button
                         type='button'
                         class='btn btn-link'
@@ -75,21 +75,13 @@
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <h2>{{this.templatedByCount}}</h2>
+                    <div local-class='Count'>{{this.templatedByCount}}</div>
                 {{/if}}
             </div>
         </div>
     </div>
 
     {{#if this.nodePublic}}
-        {{#unless this.hideAdblockWarning}}
-            {{#bs-alert type='info' onDismissed=(action this.dismissAdblockWarning)}}
-                <div class='text-center'>
-                    {{t 'analytics.adblockWarning'}}
-                </div>
-            {{/bs-alert}}
-        {{/unless}}
-
         <div local-class='PickDateRange'>
             <label>
                 {{t 'analytics.showForDateRange'}}
@@ -99,21 +91,21 @@
                         aria-expanded='false'
                         local-class='DateRangeButton'
                     >
-                        {{t (concat 'analytics.dateRanges.' this.activeDateRange.key)}}
+                        {{t (get this.timespanIntlKeys this.validTimespan)}}
                         <FaIcon @icon='caret-down' />
                     </dd.button>
                     <dd.menu
                         local-class='DateRangeMenu'
                         @align='right'
                     >
-                        {{#each this.dateRanges as |dateRange|}}
+                        {{#each this.allTimespans as |timespan|}}
                             <li role='menuitem'>
                                 <button
                                     type='button'
                                     local-class='DateRangeOption'
-                                    {{on 'click' (fn this.setDateRange dateRange)}}
+                                    {{on 'click' (fn this.setTimespan timespan)}}
                                 >
-                                    {{t (concat 'analytics.dateRanges.' dateRange.key)}}
+                                    {{t (get this.timespanIntlKeys timespan)}}
                                 </button>
                             </li>
                         {{/each}}
@@ -133,10 +125,9 @@
     <div class='clearfix'></div>
     <div class='row'>
         {{analytics-charts
+            nodeId=this.model.nodeId
             chartsEnabled=this.chartsEnabled
-            nodeTaskInstance=this.model.taskInstance
-            startDate=this.activeDateRange.start
-            endDate=this.activeDateRange.end
+            chartsDataTaskInstance=this.model.chartsDataTaskInstance
         }}
     </div>
 </div>
